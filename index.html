@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicare Exam Prep Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal: #1D9E75;
+    --teal-dark: #0F6E56;
+    --teal-light: #E1F5EE;
+    --teal-mid: #5DCAA5;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --ink: #1a2e25;
+    --ink-soft: #3d5247;
+    --paper: #f7faf8;
+    --white: #ffffff;
+    --border: #d4e8df;
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    min-height: 100vh;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+  .bg-pattern {
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 20%, rgba(29,158,117,0.06) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(29,158,117,0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .header { text-align: center; margin-bottom: 2.5rem; animation: fadeUp 0.6s ease both; }
+  .header-badge { display: inline-block; background: var(--teal-light); color: var(--teal-dark); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1rem; }
+  .header h1 { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 700; color: var(--ink); line-height: 1.15; margin-bottom: 0.75rem; }
+  .header h1 span { color: var(--teal); font-style: italic; }
+  .header p { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.6; }
+  .progress-bar { background: var(--border); border-radius: 100px; height: 6px; margin-bottom: 0.5rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--teal); border-radius: 100px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 1.5rem; }
+  .score-pill { background: var(--teal-light); color: var(--teal-dark); padding: 0.2rem 0.75rem; border-radius: 100px; font-weight: 600; }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 1.25rem; animation: fadeUp 0.4s ease both; }
+  .category-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 100px; margin-bottom: 1.1rem; }
+  .tag-basics { background: var(--teal-light); color: var(--teal-dark); }
+  .tag-parts { background: #E6F1FB; color: #185FA5; }
+  .tag-enrollment { background: #EEEDFE; color: #534AB7; }
+  .tag-medigap { background: var(--amber-light); color: var(--amber); }
+  .tag-medicaid { background: #EAF3DE; color: #3B6D11; }
+  .tag-ethics { background: var(--coral-light); color: var(--coral); }
+  .question-text { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; line-height: 1.45; color: var(--ink); margin-bottom: 1.5rem; }
+  .options { display: flex; flex-direction: column; gap: 0.65rem; }
+  .option { display: flex; align-items: center; gap: 0.85rem; padding: 0.9rem 1.1rem; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; background: var(--paper); font-size: 0.92rem; line-height: 1.4; color: var(--ink); text-align: left; width: 100%; }
+  .option:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-light); transform: translateX(3px); }
+  .option:disabled { cursor: default; }
+  .option.correct { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); }
+  .option.wrong { border-color: var(--coral); background: var(--coral-light); color: var(--coral); }
+  .option.reveal { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); }
+  .option-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 600; flex-shrink: 0; transition: all 0.2s; color: var(--ink-soft); }
+  .option.correct .option-letter { background: var(--teal); color: white; }
+  .option.wrong .option-letter { background: var(--coral); color: white; }
+  .option.reveal .option-letter { background: var(--teal); color: white; }
+  .feedback { margin-top: 1.25rem; padding: 1rem 1.25rem; border-radius: 12px; font-size: 0.9rem; line-height: 1.6; animation: fadeUp 0.3s ease both; display: none; }
+  .feedback.correct-fb { background: var(--teal-light); border-left: 3px solid var(--teal); color: var(--teal-dark); display: block; }
+  .feedback.wrong-fb { background: var(--coral-light); border-left: 3px solid var(--coral); color: var(--coral); display: block; }
+  .feedback strong { font-weight: 600; display: block; margin-bottom: 0.3rem; }
+  .feedback .explanation { color: var(--ink-soft); margin-top: 0.5rem; font-size: 0.88rem; }
+  .next-btn { width: 100%; padding: 1rem; background: var(--teal); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 1rem; display: none; letter-spacing: 0.02em; }
+  .next-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+  .next-btn.visible { display: block; animation: fadeUp 0.3s ease both; }
+  .results { text-align: center; animation: fadeUp 0.5s ease both; }
+  .results-icon { font-size: 4rem; margin-bottom: 1rem; }
+  .results h2 { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+  .results .score-big { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 700; color: var(--teal); line-height: 1; margin: 1rem 0; }
+  .results p { color: var(--ink-soft); font-size: 0.95rem; line-height: 1.6; max-width: 420px; margin: 0 auto 1.5rem; }
+  .results-breakdown { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0; text-align: left; }
+  .results-breakdown h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1rem; }
+  .breakdown-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+  .breakdown-item:last-child { border-bottom: none; }
+  .breakdown-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-correct { background: var(--teal); }
+  .dot-wrong { background: var(--coral); }
+  .restart-btn { display: inline-block; padding: 0.9rem 2rem; background: var(--teal); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
+  .restart-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+  .start-screen { text-align: center; animation: fadeUp 0.5s ease both; }
+  .start-screen .card { text-align: left; margin-bottom: 1.5rem; }
+  .topics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin: 1.25rem 0; }
+  .topic-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--ink-soft); padding: 0.6rem 0.85rem; background: var(--paper); border-radius: 8px; border: 1px solid var(--border); }
+  .topic-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .start-btn { display: block; width: 100%; padding: 1.1rem; background: var(--teal); color: white; border: none; border-radius: 14px; font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em; }
+  .start-btn:hover { background: var(--teal-dark); transform: translateY(-2px); }
+  .mode-toggle { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; justify-content: center; }
+  .mode-btn { padding: 0.6rem 1.25rem; border: 1.5px solid var(--border); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; background: var(--white); color: var(--ink-soft); transition: all 0.2s; }
+  .mode-btn.active { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); font-weight: 600; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="container">
+  <div id="start-screen" class="start-screen">
+    <div class="header">
+      <div class="header-badge">Medicare Exam Prep</div>
+      <h1>Study Smarter,<br>Pass with <span>Confidence</span></h1>
+      <p>Built for you and your friend to study together.<br>20 questions across all 6 exam topics.</p>
+    </div>
+    <div class="card">
+      <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">Topics covered</p>
+      <div class="topics-grid">
+        <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>Medicare basics</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#185FA5"></div>The four parts</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Enrollment rules</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#EF9F27"></div>Medigap plans</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#3B6D11"></div>Medicaid & dual eligible</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#D85A30"></div>Ethics & compliance</div>
+      </div>
+    </div>
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="mode-10" onclick="setMode(10)">Quick (10 Q)</button>
+      <button class="mode-btn" id="mode-20" onclick="setMode(20)">Full (20 Q)</button>
+    </div>
+    <button class="start-btn" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+  <div id="quiz-screen" class="hidden">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-label">
+      <span id="progress-text">Question 1 of 10</span>
+      <span class="score-pill" id="score-display">Score: 0</span>
+    </div>
+    <div class="card" id="question-card">
+      <div id="category-tag" class="category-tag tag-basics">Basics</div>
+      <div class="question-text" id="question-text"></div>
+      <div class="options" id="options-container"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question →</button>
+  </div>
+  <div id="results-screen" class="hidden results">
+    <div class="header">
+      <div id="results-icon" class="results-icon"></div>
+      <h2 id="results-title"></h2>
+      <div class="score-big" id="score-big"></div>
+      <p id="results-message"></p>
+    </div>
+    <div class="results-breakdown card">
+      <h3>Question by question</h3>
+      <div id="breakdown-list"></div>
+    </div>
+    <button class="restart-btn" onclick="restartQuiz()">Try Again →</button>
+  </div>
+</div>
+<script>
+const ALL_QUESTIONS = [
+  { category: "Medicare Basics", tag: "tag-basics", q: "Medicare is primarily designed for which group of people?", options: ["People under 65 with any illness", "People 65 and older, plus certain people under 65 with disabilities", "Only people who have paid taxes for 40 years", "Low-income families regardless of age"], correct: 1, explanation: "Medicare is a federal health insurance program primarily for people 65+, and for certain people under 65 with qualifying disabilities or conditions like End-Stage Renal Disease." },
+  { category: "Medicare Basics", tag: "tag-basics", q: "Which of the following does Original Medicare NOT cover by default?", options: ["Doctor visits", "Hospital stays", "Dental and vision care", "Preventive screenings"], correct: 2, explanation: "Original Medicare does NOT cover dental, vision, or hearing by default. These are common gaps that Medigap or Medicare Advantage plans may help fill." },
+  { category: "Medicare Basics", tag: "tag-basics", q: "Which federal agency runs the Medicare program?", options: ["The Social Security Administration", "The Department of Health", "Centers for Medicare and Medicaid Services (CMS)", "The IRS"], correct: 2, explanation: "CMS — the Centers for Medicare and Medicaid Services — is the federal agency that administers the Medicare program." },
+  { category: "The Four Parts", tag: "tag-parts", q: "Part A of Medicare covers which of the following?", options: ["Prescription drugs", "Doctor office visits", "Hospital stays, skilled nursing, and hospice care", "Dental and vision"], correct: 2, explanation: "Part A is hospital insurance. It covers inpatient hospital stays, skilled nursing facility care, hospice care, and some home health care." },
+  { category: "The Four Parts", tag: "tag-parts", q: "Most people pay $0 for Part A premiums. What is the requirement to qualify for this?", options: ["Be over 70 years old", "Have worked and paid Medicare taxes for at least 10 years (40 quarters)", "Be enrolled in Medicaid", "Have a disability"], correct: 1, explanation: "If you or your spouse worked and paid Medicare taxes for at least 10 years (40 quarters), you qualify for premium-free Part A." },
+  { category: "The Four Parts", tag: "tag-parts", q: "Medicare Advantage is also known as which part of Medicare?", options: ["Part A", "Part B", "Part C", "Part D"], correct: 2, explanation: "Medicare Advantage is Part C. These are private insurance plans approved by Medicare that bundle Part A and Part B, and often include Part D and extra benefits." },
+  { category: "The Four Parts", tag: "tag-parts", q: "Who sells and administers Medicare Advantage (Part C) plans?", options: ["The federal government directly", "State governments", "Private insurance companies approved by Medicare", "Hospitals and health systems"], correct: 2, explanation: "Part C plans are sold by private insurers — not the federal government. This is a key exam distinction. Parts A and B are run by the government; C and D are run by private insurers." },
+  { category: "The Four Parts", tag: "tag-parts", q: "What does Part D cover?", options: ["Dental care", "Prescription drugs", "Doctor visits", "Long-term care"], correct: 1, explanation: "Part D covers prescription drugs. These are separate plans sold by private insurers. There is a penalty for late enrollment if you don\u0027t have other creditable drug coverage." },
+  { category: "Enrollment Rules", tag: "tag-enrollment", q: "How long is the Initial Enrollment Period (IEP) when someone first becomes eligible for Medicare at 65?", options: ["3 months after their birthday", "6 months total centered on their birthday", "7 months — 3 before, the birthday month, and 3 after", "12 months starting on their birthday"], correct: 2, explanation: "The IEP is 7 months total: 3 months before the birthday month, the birthday month itself, and 3 months after. Enrolling before or during the birthday month gives the earliest coverage start." },
+  { category: "Enrollment Rules", tag: "tag-enrollment", q: "What are the dates of the Annual Open Enrollment Period for Medicare?", options: ["January 1 – March 31", "July 1 – September 30", "October 15 – December 7", "November 1 – January 15"], correct: 2, explanation: "Open Enrollment runs October 15 through December 7 every year. Changes take effect January 1. This is when beneficiaries can switch, join, or drop Medicare Advantage and Part D plans." },
+  { category: "Enrollment Rules", tag: "tag-enrollment", q: "What is a Special Enrollment Period (SEP)?", options: ["A period only available to low-income seniors", "An enrollment window triggered by qualifying life events like losing employer coverage", "An extra 30 days given to everyone who misses open enrollment", "A period for people turning 70"], correct: 1, explanation: "A SEP is triggered by qualifying life events — like losing employer-sponsored health insurance, moving, or losing Medicaid eligibility. It allows enrollment outside the standard windows." },
+  { category: "Medigap Plans", tag: "tag-medigap", q: "What is the main purpose of a Medigap (Medicare Supplement) plan?", options: ["To replace Medicare entirely with private insurance", "To fill the cost gaps in Original Medicare like co-pays and deductibles", "To provide drug coverage for Part D", "To cover long-term nursing home care"], correct: 1, explanation: "Medigap plans supplement Original Medicare by covering out-of-pocket costs like co-pays, deductibles, and coinsurance. They do NOT replace Medicare — they work alongside Parts A and B." },
+  { category: "Medigap Plans", tag: "tag-medigap", q: "Can someone have both a Medigap plan and a Medicare Advantage plan at the same time?", options: ["Yes, for extra coverage", "Yes, but only in certain states", "No — they cannot be combined", "Only if approved by CMS"], correct: 2, explanation: "Medigap only works with Original Medicare (Parts A & B). Medicare Advantage replaces Original Medicare, so there are no gaps for Medigap to fill. They cannot be combined." },
+  { category: "Medigap Plans", tag: "tag-medigap", q: "Medigap plans are standardized and labeled A through N. Which plans are most commonly sold today?", options: ["Plans A and B", "Plans G and N", "Plans C and F", "Plans J and K"], correct: 1, explanation: "Plans G and N are the most popular Medigap plans sold today. Plan F is no longer available to new Medicare enrollees who became eligible after January 1, 2020." },
+  { category: "Medicaid & Dual Eligible", tag: "tag-medicaid", q: "What is the key difference between Medicare and Medicaid?", options: ["Medicare is for low-income people; Medicaid is for seniors", "Medicare is a federal program; Medicaid is state-run with federal funding", "They are the same program with different names", "Medicare covers drugs; Medicaid covers hospitals"], correct: 1, explanation: "Medicare is a federal program primarily for people 65+. Medicaid is a state-administered program (with federal funding) for low-income individuals. In California, Medicaid is called Medi-Cal." },
+  { category: "Medicaid & Dual Eligible", tag: "tag-medicaid", q: "What does \u0027dual eligible\u0027 mean?", options: ["Someone eligible for both Medicare Part A and Part B", "Someone who qualifies for both Medicare and Medicaid", "Someone covered by two private insurance plans", "Someone eligible for Medicare in two states"], correct: 1, explanation: "Dual eligible refers to people who qualify for both Medicare and Medicaid. This is a large, underserved population — often low-income seniors — who may qualify for special plans called D-SNPs." },
+  { category: "Medicaid & Dual Eligible", tag: "tag-medicaid", q: "What is the Extra Help program (also called Low Income Subsidy or LIS)?", options: ["A program that pays for dental and vision care", "A federal program that helps low-income Medicare beneficiaries pay for Part D costs", "A state program that pays Part A premiums", "A grant program for new Medicare enrollees"], correct: 1, explanation: "Extra Help is a federal program that helps people with limited income and resources pay for Part D prescription drug costs — including premiums, deductibles, and co-pays. Millions qualify but have never applied." },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What is a Scope of Appointment (SOA) form and when must it be completed?", options: ["A form signed after enrollment to confirm coverage", "A form that must be completed before discussing Medicare Advantage or Part D plans with a client", "A form submitted to CMS after every client meeting", "A background check form for new agents"], correct: 1, explanation: "The SOA is a written agreement that must be completed BEFORE a sales meeting. It protects clients by ensuring they have agreed to discuss specific plan types. Skipping this step is a compliance violation." },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What is the maximum value of a gift or incentive a Medicare agent can offer a client to influence their enrollment decision?", options: ["$5", "$15", "$50", "$100"], correct: 1, explanation: "Medicare agents cannot offer gifts worth more than $15 per item (and no more than $75 total per person per year) to influence enrollment decisions. This protects seniors from being manipulated." },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "When must a Medicare agent always act?", options: ["In the best interest of the insurance company", "In the best interest of the beneficiary", "In the best interest of their carrier", "Based on whichever plan pays the highest commission"], correct: 1, explanation: "Medicare agents must ALWAYS act in the best interest of the beneficiary — not the insurer, not themselves. This is the core ethical principle of Medicare sales and shows up on every licensing exam." }
+];
+
+let mode = 10;
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = [];
+let selectedMode = 10;
+
+function setMode(n) {
+  selectedMode = n;
+  document.getElementById('mode-10').classList.toggle('active', n === 10);
+  document.getElementById('mode-20').classList.toggle('active', n === 20);
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  mode = selectedMode;
+  const shuffled = shuffle(ALL_QUESTIONS);
+  questions = shuffled.slice(0, mode).map(q => ({
+    ...q,
+    options: q.options.map((o, i) => ({ text: o, originalIndex: i }))
+  }));
+  current = 0;
+  score = 0;
+  answered = [];
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  loadQuestion();
+}
+
+function loadQuestion() {
+  const q = questions[current];
+  const total = questions.length;
+  document.getElementById('progress-fill').style.width = ((current / total) * 100) + '%';
+  document.getElementById('progress-text').textContent = `Question ${current + 1} of ${total}`;
+  document.getElementById('score-display').textContent = `Score: ${score}`;
+  document.getElementById('category-tag').textContent = q.category;
+  document.getElementById('category-tag').className = 'category-tag ' + q.tag;
+  document.getElementById('question-text').textContent = q.q;
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  const shuffledOptions = shuffle(q.options);
+  shuffledOptions.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt.text}</span>`;
+    btn.onclick = () => selectAnswer(btn, opt.originalIndex, shuffledOptions, q.correct);
+    container.appendChild(btn);
+  });
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.innerHTML = '';
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.classList.remove('visible');
+  nextBtn.textContent = current < questions.length - 1 ? 'Next Question →' : 'See Results →';
+  document.getElementById('question-card').style.animation = 'none';
+  setTimeout(() => document.getElementById('question-card').style.animation = 'fadeUp 0.4s ease both', 10);
+}
+
+function selectAnswer(btn, selectedIndex, shuffledOptions, correctOriginalIndex) {
+  const allBtns = document.querySelectorAll('.option');
+  allBtns.forEach(b => b.disabled = true);
+  const isCorrect = selectedIndex === correctOriginalIndex;
+  const q = questions[current];
+  if (isCorrect) {
+    btn.classList.add('correct');
+    score++;
+    answered.push({ q: q.q, correct: true });
+    showFeedback(true, q.explanation);
+  } else {
+    btn.classList.add('wrong');
+    answered.push({ q: q.q, correct: false });
+    allBtns.forEach(b => {
+      const idx = shuffledOptions[Array.from(allBtns).indexOf(b)]?.originalIndex;
+      if (idx === correctOriginalIndex) b.classList.add('reveal');
+    });
+    showFeedback(false, q.explanation);
+  }
+  document.getElementById('score-display').textContent = `Score: ${score}`;
+  document.getElementById('next-btn').classList.add('visible');
+}
+
+function showFeedback(correct, explanation) {
+  const fb = document.getElementById('feedback');
+  if (correct) {
+    fb.className = 'feedback correct-fb';
+    fb.innerHTML = `<strong>Correct!</strong><div class="explanation">${explanation}</div>`;
+  } else {
+    fb.className = 'feedback wrong-fb';
+    fb.innerHTML = `<strong>Not quite — but here\u0027s what to know:</strong><div class="explanation">${explanation}</div>`;
+  }
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) {
+    showResults();
+  } else {
+    loadQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('results-screen').classList.remove('hidden');
+  const pct = Math.round((score / questions.length) * 100);
+  let icon, title, message;
+  if (pct >= 90) {
+    icon = '🏆'; title = 'Outstanding!';
+    message = 'You are ready to help your friend ace this exam. Keep reviewing and stay sharp — you clearly know this material.';
+  } else if (pct >= 70) {
+    icon = '💪'; title = 'Great progress!';
+    message = 'You know the core material well. Review the questions you missed and run the quiz again — you are very close to exam-ready.';
+  } else if (pct >= 50) {
+    icon = '📚'; title = 'Keep studying!';
+    message = 'Good foundation — focus on the topics where you got questions wrong and try again. You will get there.';
+  } else {
+    icon = '🌱'; title = 'Just getting started!';
+    message = 'Every expert started here. Go back through the study guide, then run the quiz again. You are building something real.';
+  }
+  document.getElementById('results-icon').textContent = icon;
+  document.getElementById('results-title').textContent = title;
+  document.getElementById('score-big').textContent = `${score}/${questions.length}`;
+  document.getElementById('results-message').textContent = message;
+  const list = document.getElementById('breakdown-list');
+  list.innerHTML = '';
+  answered.forEach((a, i) => {
+    const item = document.createElement('div');
+    item.className = 'breakdown-item';
+    item.innerHTML = `<div class="breakdown-dot ${a.correct ? 'dot-correct' : 'dot-wrong'}"></div><span style="flex:1;font-size:0.85rem;color:var(--ink-soft)">Q${i+1}: ${a.q.substring(0,60)}${a.q.length > 60 ? '...' : ''}</span><span style="font-size:0.8rem;font-weight:600;color:${a.correct ? 'var(--teal-dark)' : 'var(--coral)'}">${a.correct ? '✓' : '✗'}</span>`;
+    list.appendChild(item);
+  });
+}
+
+function restartQuiz() {
+  document.getElementById('results-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
