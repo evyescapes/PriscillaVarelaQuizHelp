@@ -6,163 +6,129 @@
 <title>Medicare Exam Prep Quiz</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --teal: #1D9E75;
-  --teal-dark: #0F6E56;
-  --teal-light: #E1F5EE;
-  --teal-mid: #5DCAA5;
-  --coral: #D85A30;
-  --coral-light: #FAECE7;
-  --amber: #EF9F27;
-  --amber-light: #FAEEDA;
-  --ink: #1a2e25;
-  --ink-soft: #3d5247;
-  --paper: #f7faf8;
-  --white: #ffffff;
-  --border: #d4e8df;
-}
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--paper);
-  min-height: 100vh;
-  color: var(--ink);
-  overflow-x: hidden;
-}
-.bg-pattern {
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle at 20% 20%, rgba(29,158,117,0.06) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(29,158,117,0.04) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
-}
-.container {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-  position: relative;
-  z-index: 1;
-}
-.header {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  animation: fadeUp 0.6s ease both;
-}
-.header-badge {
-  display: inline-block;
-  background: var(--teal-light);
-  color: var(--teal-dark);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.35rem 1rem;
-  border-radius: 100px;
-  margin-bottom: 1rem;
-}
-.header h1 {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(1.8rem, 5vw, 2.6rem);
-  font-weight: 700;
-  color: var(--ink);
-  line-height: 1.15;
-  margin-bottom: 0.75rem;
-}
-.header h1 span { color: var(--teal); font-style: italic; }
-.header p { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.6; }
-.progress-bar { background: var(--border); border-radius: 100px; height: 6px; margin-bottom: 0.5rem; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--teal); border-radius: 100px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-.progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 1.5rem; }
-.score-pill { background: var(--teal-light); color: var(--teal-dark); padding: 0.2rem 0.75rem; border-radius: 100px; font-weight: 600; }
-.card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 1.25rem; animation: fadeUp 0.4s ease both; }
-.category-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 100px; margin-bottom: 1.1rem; }
-.tag-basics { background: var(--teal-light); color: var(--teal-dark); }
-.tag-parts { background: #E6F1FB; color: #185FA5; }
-.tag-enrollment { background: #EEEDFE; color: #534AB7; }
-.tag-medigap { background: var(--amber-light); color: var(--amber); }
-.tag-medicaid { background: #EAF3DE; color: #3B6D11; }
-.tag-ethics { background: var(--coral-light); color: var(--coral); }
-.question-text { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; line-height: 1.45; color: var(--ink); margin-bottom: 1.5rem; }
-.options { display: flex; flex-direction: column; gap: 0.65rem; }
-.option { display: flex; align-items: center; gap: 0.85rem; padding: 0.9rem 1.1rem; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; background: var(--paper); font-size: 0.92rem; line-height: 1.4; color: var(--ink); text-align: left; width: 100%; }
-.option:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-light); transform: translateX(3px); }
-.option:disabled { cursor: default; }
-.option.correct { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); }
-.option.wrong { border-color: var(--coral); background: var(--coral-light); color: var(--coral); }
-.option.reveal { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); }
-.option-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 600; flex-shrink: 0; transition: all 0.2s; color: var(--ink-soft); }
-.option.correct .option-letter { background: var(--teal); color: white; }
-.option.wrong .option-letter { background: var(--coral); color: white; }
-.option.reveal .option-letter { background: var(--teal); color: white; }
-.feedback { margin-top: 1.25rem; padding: 1rem 1.25rem; border-radius: 12px; font-size: 0.9rem; line-height: 1.6; animation: fadeUp 0.3s ease both; display: none; }
-.feedback.correct-fb { background: var(--teal-light); border-left: 3px solid var(--teal); color: var(--teal-dark); display: block; }
-.feedback.wrong-fb { background: var(--coral-light); border-left: 3px solid var(--coral); color: var(--coral); display: block; }
-.feedback strong { font-weight: 600; display: block; margin-bottom: 0.3rem; }
-.feedback .explanation { color: var(--ink-soft); margin-top: 0.5rem; font-size: 0.88rem; }
-.next-btn { width: 100%; padding: 1rem; background: var(--teal); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 1rem; display: none; letter-spacing: 0.02em; }
-.next-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
-.next-btn.visible { display: block; animation: fadeUp 0.3s ease both; }
-.results { text-align: center; animation: fadeUp 0.5s ease both; }
-.results-icon { font-size: 4rem; margin-bottom: 1rem; }
-.results h2 { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
-.results .score-big { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 700; color: var(--teal); line-height: 1; margin: 1rem 0; }
-.results p { color: var(--ink-soft); font-size: 0.95rem; line-height: 1.6; max-width: 420px; margin: 0 auto 1.5rem; }
-.results-breakdown { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0; text-align: left; }
-.results-breakdown h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1rem; }
-.breakdown-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
-.breakdown-item:last-child { border-bottom: none; }
-.breakdown-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.dot-correct { background: var(--teal); }
-.dot-wrong { background: var(--coral); }
-.restart-btn { display: inline-block; padding: 0.9rem 2rem; background: var(--teal); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
-.restart-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
-.start-screen { text-align: center; animation: fadeUp 0.5s ease both; }
-.start-screen .card { text-align: left; margin-bottom: 1.5rem; }
-.topics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin: 1.25rem 0; }
-.topic-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--ink-soft); padding: 0.6rem 0.85rem; background: var(--paper); border-radius: 8px; border: 1px solid var(--border); }
-.topic-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.start-btn { display: block; width: 100%; padding: 1.1rem; background: var(--teal); color: white; border: none; border-radius: 14px; font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em; }
-.start-btn:hover { background: var(--teal-dark); transform: translateY(-2px); }
-.mode-toggle { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; justify-content: center; }
-.mode-btn { padding: 0.6rem 1.25rem; border: 1.5px solid var(--border); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; background: var(--white); color: var(--ink-soft); transition: all 0.2s; }
-.mode-btn.active { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); font-weight: 600; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-.hidden { display: none; }
-.home-tabs { display: flex; gap: 0.6rem; justify-content: center; margin-bottom: 1.5rem; }
-.home-tab { padding: 0.6rem 1.25rem; border: 1.5px solid var(--border); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; cursor: pointer; background: var(--white); color: var(--ink-soft); transition: all 0.2s; }
-.home-tab.active { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); font-weight: 600; }
-.roleplay-screen { animation: fadeUp 0.5s ease both; }
-.scenario-card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; margin-bottom: 1.25rem; animation: fadeUp 0.4s ease both; }
-.scenario-header { background: #1B5E9B; color: white; padding: 0.75rem 1.5rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-.scenario-progress { display: flex; justify-content: space-between; align-items: center; }
-.scenario-body { padding: 1.5rem; }
-.scenario-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; margin-top: 1.1rem; }
-.label-customer { color: #1B5E9B; }
-.label-followups { color: #B76E00; }
-.label-answer { color: #2E7D32; }
-.label-source { color: #7B1FA2; }
-.scenario-question { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 600; color: var(--ink); background: #F0F7FF; border-radius: 10px; padding: 0.85rem 1rem; line-height: 1.45; }
-.followup-list { list-style: none; background: #FFF8E1; border-radius: 10px; padding: 0.75rem 1rem; }
-.followup-list li { font-size: 0.88rem; color: var(--ink-soft); padding: 0.3rem 0; border-bottom: 1px solid #FFE082; line-height: 1.4; }
-.followup-list li:last-child { border-bottom: none; }
-.answer-box { background: #F1FBF2; border-radius: 10px; padding: 0.85rem 1rem; font-size: 0.88rem; color: var(--ink); line-height: 1.6; display: none; }
-.answer-box.visible { display: block; animation: fadeUp 0.3s ease both; }
-.source-box { background: #FCF4FF; border-radius: 8px; padding: 0.6rem 1rem; font-size: 0.8rem; color: #7B1FA2; font-style: italic; display: none; }
-.source-box.visible { display: block; }
-.reveal-btn { width: 100%; padding: 0.75rem; background: var(--white); border: 1.5px solid var(--teal); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600; color: var(--teal-dark); cursor: pointer; transition: all 0.2s; margin-top: 1rem; }
-.reveal-btn:hover { background: var(--teal-light); }
-.reveal-btn.hidden-btn { display: none; }
-.rp-nav { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
-.rp-nav-btn { flex: 1; padding: 0.9rem; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.92rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.rp-prev { background: var(--paper); border: 1.5px solid var(--border); color: var(--ink-soft); }
-.rp-prev:hover { background: var(--border); }
-.rp-next { background: var(--teal); color: white; }
-.rp-next:hover { background: var(--teal-dark); transform: translateY(-1px); }
-.rp-next:disabled { background: var(--border); color: var(--ink-soft); cursor: default; transform: none; }
-.rp-done-screen { text-align: center; animation: fadeUp 0.5s ease both; padding: 2rem 0; }
-.rp-done-screen .results-icon { font-size: 4rem; margin-bottom: 1rem; }
-.rp-done-screen h2 { font-family: 'Fraunces', serif; font-size: 1.8rem; color: var(--ink); margin-bottom: 0.75rem; }
-.rp-done-screen p { color: var(--ink-soft); font-size: 0.95rem; line-height: 1.6; max-width: 380px; margin: 0 auto 1.5rem; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal: #1D9E75;
+    --teal-dark: #0F6E56;
+    --teal-light: #E1F5EE;
+    --teal-mid: #5DCAA5;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --amber: #EF9F27;
+    --amber-light: #FAEEDA;
+    --ink: #1a2e25;
+    --ink-soft: #3d5247;
+    --paper: #f7faf8;
+    --white: #ffffff;
+    --border: #d4e8df;
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    min-height: 100vh;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+  .bg-pattern {
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 20%, rgba(29,158,117,0.06) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(29,158,117,0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+  .header h1 span { color: var(--teal); font-style: italic; }
+  .header p { font-size: 0.95rem; color: var(--ink-soft); line-height: 1.6; }
+  .progress-bar { background: var(--border); border-radius: 100px; height: 6px; margin-bottom: 0.5rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--teal); border-radius: 100px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 1.5rem; }
+  .score-pill { background: var(--teal-light); color: var(--teal-dark); padding: 0.2rem 0.75rem; border-radius: 100px; font-weight: 600; }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; margin-bottom: 1.25rem; animation: fadeUp 0.4s ease both; }
+  .category-tag { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: 100px; margin-bottom: 1.1rem; }
+  .tag-basics { background: var(--teal-light); color: var(--teal-dark); }
+  .tag-parts { background: #E6F1FB; color: #185FA5; }
+  .tag-enrollment { background: #EEEDFE; color: #534AB7; }
+  .tag-medigap { background: var(--amber-light); color: var(--amber); }
+  .tag-medicaid { background: #EAF3DE; color: #3B6D11; }
+  .tag-ethics { background: var(--coral-light); color: var(--coral); }
+  .question-text { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; line-height: 1.45; color: var(--ink); margin-bottom: 1.5rem; }
+  .options { display: flex; flex-direction: column; gap: 0.65rem; }
+  .option { display: flex; align-items: center; gap: 0.85rem; padding: 0.9rem 1.1rem; border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; background: var(--paper); font-size: 0.92rem; line-height: 1.4; color: var(--ink); text-align: left; width: 100%; }
+  .option:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-light); transform: translateX(3px); }
+  .option:disabled { cursor: default; }
+  .option.correct { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); }
+  .option.wrong { border-color: var(--coral); background: var(--coral-light); color: var(--coral); }
+  .option.reveal { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); }
+  .option-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 600; flex-shrink: 0; transition: all 0.2s; color: var(--ink-soft); }
+  .option.correct .option-letter { background: var(--teal); color: white; }
+  .option.wrong .option-letter { background: var(--coral); color: white; }
+  .option.reveal .option-letter { background: var(--teal); color: white; }
+  .feedback { margin-top: 1.25rem; padding: 1rem 1.25rem; border-radius: 12px; font-size: 0.9rem; line-height: 1.6; animation: fadeUp 0.3s ease both; display: none; }
+  .feedback.correct-fb { background: var(--teal-light); border-left: 3px solid var(--teal); color: var(--teal-dark); display: block; }
+  .feedback.wrong-fb { background: var(--coral-light); border-left: 3px solid var(--coral); color: var(--coral); display: block; }
+  .feedback strong { font-weight: 600; display: block; margin-bottom: 0.3rem; }
+  .feedback .explanation { color: var(--ink-soft); margin-top: 0.5rem; font-size: 0.88rem; }
+  .next-btn { width: 100%; padding: 1rem; background: var(--teal); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 1rem; display: none; letter-spacing: 0.02em; }
+  .next-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+  .next-btn.visible { display: block; animation: fadeUp 0.3s ease both; }
+  .results { text-align: center; animation: fadeUp 0.5s ease both; }
+  .results-icon { font-size: 4rem; margin-bottom: 1rem; }
+  .results h2 { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+  .results .score-big { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 700; color: var(--teal); line-height: 1; margin: 1rem 0; }
+  .results p { color: var(--ink-soft); font-size: 0.95rem; line-height: 1.6; max-width: 420px; margin: 0 auto 1.5rem; }
+  .results-breakdown { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0; text-align: left; }
+  .results-breakdown h3 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1rem; }
+  .breakdown-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+  .breakdown-item:last-child { border-bottom: none; }
+  .breakdown-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-correct { background: var(--teal); }
+  .dot-wrong { background: var(--coral); }
+  .restart-btn { display: inline-block; padding: 0.9rem 2rem; background: var(--teal); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
+  .restart-btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+  .start-screen { text-align: center; animation: fadeUp 0.5s ease both; }
+  .start-screen .card { text-align: left; margin-bottom: 1.5rem; }
+  .topics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin: 1.25rem 0; }
+  .topic-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--ink-soft); padding: 0.6rem 0.85rem; background: var(--paper); border-radius: 8px; border: 1px solid var(--border); }
+  .topic-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .start-btn { display: block; width: 100%; padding: 1.1rem; background: var(--teal); color: white; border: none; border-radius: 14px; font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.2s; letter-spacing: 0.02em; }
+  .start-btn:hover { background: var(--teal-dark); transform: translateY(-2px); }
+  .mode-toggle { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; justify-content: center; }
+  .mode-btn { padding: 0.6rem 1.25rem; border: 1.5px solid var(--border); border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; background: var(--white); color: var(--ink-soft); transition: all 0.2s; }
+  .mode-btn.active { border-color: var(--teal); background: var(--teal-light); color: var(--teal-dark); font-weight: 600; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .hidden { display: none; }
 </style>
 </head>
 <body>
@@ -173,43 +139,25 @@ body {
     <div class="header">
       <div class="header-badge">Medicare Exam Prep</div>
       <h1>Study Smarter,<br>Pass with <span>Confidence</span></h1>
-      <p>Built for you and your friend to study together.</p>
+      <p>Built for Debbie — study together, one question at a time. 💛</p>
     </div>
-    <div class="home-tabs">
-      <button class="home-tab active" id="tab-quiz" onclick="showHomeTab('quiz')">&#128221; Exam Quiz</button>
-      <button class="home-tab" id="tab-roleplay" onclick="showHomeTab('roleplay')">&#127917; Role-Play Practice</button>
-    </div>
-    <!-- Quiz Home Panel -->
-    <div id="home-quiz-panel">
-      <div class="card">
-        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">Topics covered</p>
-        <div class="topics-grid">
-          <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>Medicare basics</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#185FA5"></div>The four parts</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Enrollment rules</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#EF9F27"></div>Medigap plans</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#3B6D11"></div>Medicaid &amp; dual eligible</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#D85A30"></div>Ethics &amp; compliance</div>
-        </div>
+    <div class="card">
+      <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">Topics covered</p>
+      <div class="topics-grid">
+        <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>Medicare basics</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#185FA5"></div>The four parts</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Enrollment rules</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#EF9F27"></div>Medigap plans</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#3B6D11"></div>Medicaid &amp; dual eligible</div>
+        <div class="topic-item"><div class="topic-dot" style="background:#D85A30"></div>💛 Ethics &amp; compliance (30 Q)</div>
       </div>
-      <div class="mode-toggle">
-        <button class="mode-btn active" id="mode-10" onclick="setMode(10)">Quick (10 Q)</button>
-        <button class="mode-btn" id="mode-20" onclick="setMode(20)">Full (20 Q)</button>
-      </div>
-      <button class="start-btn" onclick="startQuiz()">Start Quiz &#8594;</button>
     </div>
-    <!-- Role-Play Home Panel -->
-    <div id="home-roleplay-panel" class="hidden">
-      <div class="card">
-        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.5rem;">How to use this</p>
-        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">&#127908; <strong>Evy reads</strong> the customer question out loud.</p>
-        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">&#128172; <strong>Her friend answers</strong> as the insurance agent.</p>
-        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">&#128269; <strong>Evy asks</strong> the follow-up questions to push deeper.</p>
-        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;">&#9989; <strong>Tap "Reveal Answer"</strong> to check if she got it right.</p>
-      </div>
-      <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">10 real customer scenarios &middot; All sourced from Medicare.gov</p>
-      <button class="start-btn" onclick="startRolePlay()">Start Role-Play &#8594;</button>
+    <div class="mode-toggle" style="flex-wrap:wrap;gap:0.5rem;">
+      <button class="mode-btn active" id="mode-10" onclick="setMode(10)">Quick Mix (10 Q)</button>
+      <button class="mode-btn" id="mode-20" onclick="setMode(20)">Full Mix (20 Q)</button>
+      <button class="mode-btn" id="mode-ethics" onclick="setEthicsMode()" style="border-color:#D85A30;color:#993C1D;background:#FAECE7;">💛 Debbie's Ethics (30 Q)</button>
     </div>
+    <button class="start-btn" onclick="startQuiz()">Start Quiz →</button>
   </div>
 
   <!-- QUIZ SCREEN -->
@@ -225,7 +173,7 @@ body {
       <div class="options" id="options-container"></div>
       <div class="feedback" id="feedback"></div>
     </div>
-    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question &#8594;</button>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question →</button>
   </div>
 
   <!-- RESULTS SCREEN -->
@@ -240,51 +188,8 @@ body {
       <h3>Question by question</h3>
       <div id="breakdown-list"></div>
     </div>
-    <button class="restart-btn" onclick="restartQuiz()">Try Again &#8594;</button>
+    <button class="restart-btn" onclick="restartQuiz()">Try Again →</button>
   </div>
-
-  <!-- ROLE-PLAY SCREEN -->
-  <div id="roleplay-screen" class="hidden roleplay-screen">
-    <div class="progress-bar"><div class="progress-fill" id="rp-progress-fill"></div></div>
-    <div class="progress-label">
-      <span id="rp-progress-text">Scenario 1 of 10</span>
-      <span class="score-pill">Role-Play Mode</span>
-    </div>
-    <div class="scenario-card" id="scenario-card">
-      <div class="scenario-header">
-        <div class="scenario-progress">
-          <span id="scenario-num">SCENARIO 1</span>
-          <span style="opacity:0.75;font-weight:400">Customer Practice</span>
-        </div>
-      </div>
-      <div class="scenario-body">
-        <div class="scenario-label label-customer">&#128483; Customer Asks:</div>
-        <div class="scenario-question" id="rp-question"></div>
-        <div class="scenario-label label-followups" style="margin-top:1.1rem;">&#128172; Your Follow-Up Questions:</div>
-        <ul class="followup-list" id="rp-followups"></ul>
-        <button class="reveal-btn" id="reveal-btn" onclick="revealAnswer()">Reveal Correct Answer &#8595;</button>
-        <div class="scenario-label label-answer" style="margin-top:1rem;display:none" id="answer-label">&#9989; Correct Answer:</div>
-        <div class="answer-box" id="rp-answer"></div>
-        <div class="scenario-label label-source" style="margin-top:0.75rem;display:none" id="source-label">&#128204; Source:</div>
-        <div class="source-box" id="rp-source"></div>
-      </div>
-    </div>
-    <div class="rp-nav">
-      <button class="rp-nav-btn rp-prev" onclick="rpNav(-1)" id="rp-prev-btn">&#8592; Previous</button>
-      <button class="rp-nav-btn rp-next" onclick="rpNav(1)" id="rp-next-btn">Next Scenario &#8594;</button>
-    </div>
-  </div>
-
-  <!-- ROLE-PLAY DONE SCREEN -->
-  <div id="roleplay-done-screen" class="hidden rp-done-screen">
-    <div class="results-icon">&#127881;</div>
-    <h2>Practice Complete!</h2>
-    <p>You made it through all 10 scenarios. The more you practice, the more confident your friend will be when she's in front of a real client.</p>
-    <button class="restart-btn" onclick="restartRolePlay()">Practice Again &#8594;</button>
-    <br><br>
-    <button class="restart-btn" style="background:var(--paper);color:var(--teal-dark);border:1.5px solid var(--teal)" onclick="goHome()">&#8592; Back to Home</button>
-  </div>
-
 </div>
 <script>
 const ALL_QUESTIONS = [
@@ -310,7 +215,7 @@ const ALL_QUESTIONS = [
     q: "Which federal agency runs the Medicare program?",
     options: ["The Social Security Administration", "The Department of Health", "Centers for Medicare and Medicaid Services (CMS)", "The IRS"],
     correct: 2,
-    explanation: "CMS - the Centers for Medicare and Medicaid Services - is the federal agency that administers the Medicare program."
+    explanation: "CMS — the Centers for Medicare and Medicaid Services — is the federal agency that administers the Medicare program."
   },
   {
     category: "The Four Parts",
@@ -342,7 +247,7 @@ const ALL_QUESTIONS = [
     q: "Who sells and administers Medicare Advantage (Part C) plans?",
     options: ["The federal government directly", "State governments", "Private insurance companies approved by Medicare", "Hospitals and health systems"],
     correct: 2,
-    explanation: "Part C plans are sold by private insurers - not the federal government. This is a key exam distinction. Parts A and B are run by the government; C and D are run by private insurers."
+    explanation: "Part C plans are sold by private insurers — not the federal government. This is a key exam distinction. Parts A and B are run by the government; C and D are run by private insurers."
   },
   {
     category: "The Four Parts",
@@ -356,7 +261,7 @@ const ALL_QUESTIONS = [
     category: "Enrollment Rules",
     tag: "tag-enrollment",
     q: "How long is the Initial Enrollment Period (IEP) when someone first becomes eligible for Medicare at 65?",
-    options: ["3 months after their birthday", "6 months total centered on their birthday", "7 months - 3 before, the birthday month, and 3 after", "12 months starting on their birthday"],
+    options: ["3 months after their birthday", "6 months total centered on their birthday", "7 months — 3 before, the birthday month, and 3 after", "12 months starting on their birthday"],
     correct: 2,
     explanation: "The IEP is 7 months total: 3 months before the birthday month, the birthday month itself, and 3 months after. Enrolling before or during the birthday month gives the earliest coverage start."
   },
@@ -364,7 +269,7 @@ const ALL_QUESTIONS = [
     category: "Enrollment Rules",
     tag: "tag-enrollment",
     q: "What are the dates of the Annual Open Enrollment Period for Medicare?",
-    options: ["January 1 - March 31", "July 1 - September 30", "October 15 - December 7", "November 1 - January 15"],
+    options: ["January 1 – March 31", "July 1 – September 30", "October 15 – December 7", "November 1 – January 15"],
     correct: 2,
     explanation: "Open Enrollment runs October 15 through December 7 every year. Changes take effect January 1. This is when beneficiaries can switch, join, or drop Medicare Advantage and Part D plans."
   },
@@ -374,7 +279,7 @@ const ALL_QUESTIONS = [
     q: "What is a Special Enrollment Period (SEP)?",
     options: ["A period only available to low-income seniors", "An enrollment window triggered by qualifying life events like losing employer coverage", "An extra 30 days given to everyone who misses open enrollment", "A period for people turning 70"],
     correct: 1,
-    explanation: "A SEP is triggered by qualifying life events - like losing employer-sponsored health insurance, moving, or losing Medicaid eligibility. It allows enrollment outside the standard windows."
+    explanation: "A SEP is triggered by qualifying life events — like losing employer-sponsored health insurance, moving, or losing Medicaid eligibility. It allows enrollment outside the standard windows."
   },
   {
     category: "Medigap Plans",
@@ -382,13 +287,13 @@ const ALL_QUESTIONS = [
     q: "What is the main purpose of a Medigap (Medicare Supplement) plan?",
     options: ["To replace Medicare entirely with private insurance", "To fill the cost gaps in Original Medicare like co-pays and deductibles", "To provide drug coverage for Part D", "To cover long-term nursing home care"],
     correct: 1,
-    explanation: "Medigap plans supplement Original Medicare by covering out-of-pocket costs like co-pays, deductibles, and coinsurance. They do NOT replace Medicare - they work alongside Parts A and B."
+    explanation: "Medigap plans supplement Original Medicare by covering out-of-pocket costs like co-pays, deductibles, and coinsurance. They do NOT replace Medicare — they work alongside Parts A and B."
   },
   {
     category: "Medigap Plans",
     tag: "tag-medigap",
     q: "Can someone have both a Medigap plan and a Medicare Advantage plan at the same time?",
-    options: ["Yes, for extra coverage", "Yes, but only in certain states", "No - they cannot be combined", "Only if approved by CMS"],
+    options: ["Yes, for extra coverage", "Yes, but only in certain states", "No — they cannot be combined", "Only if approved by CMS"],
     correct: 2,
     explanation: "Medigap only works with Original Medicare (Parts A & B). Medicare Advantage replaces Original Medicare, so there are no gaps for Medigap to fill. They cannot be combined."
   },
@@ -414,7 +319,7 @@ const ALL_QUESTIONS = [
     q: "What does 'dual eligible' mean?",
     options: ["Someone eligible for both Medicare Part A and Part B", "Someone who qualifies for both Medicare and Medicaid", "Someone covered by two private insurance plans", "Someone eligible for Medicare in two states"],
     correct: 1,
-    explanation: "Dual eligible refers to people who qualify for both Medicare and Medicaid. This is a large, underserved population - often low-income seniors - who may qualify for special plans called D-SNPs."
+    explanation: "Dual eligible refers to people who qualify for both Medicare and Medicaid. This is a large, underserved population — often low-income seniors — who may qualify for special plans called D-SNPs."
   },
   {
     category: "Medicaid & Dual Eligible",
@@ -422,7 +327,7 @@ const ALL_QUESTIONS = [
     q: "What is the Extra Help program (also called Low Income Subsidy or LIS)?",
     options: ["A program that pays for dental and vision care", "A federal program that helps low-income Medicare beneficiaries pay for Part D costs", "A state program that pays Part A premiums", "A grant program for new Medicare enrollees"],
     correct: 1,
-    explanation: "Extra Help is a federal program that helps people with limited income and resources pay for Part D prescription drug costs - including premiums, deductibles, and co-pays. Millions qualify but have never applied."
+    explanation: "Extra Help is a federal program that helps people with limited income and resources pay for Part D prescription drug costs — including premiums, deductibles, and co-pays. Millions qualify but have never applied."
   },
   {
     category: "Ethics & Compliance",
@@ -446,8 +351,41 @@ const ALL_QUESTIONS = [
     q: "When must a Medicare agent always act?",
     options: ["In the best interest of the insurance company", "In the best interest of the beneficiary", "In the best interest of their carrier", "Based on whichever plan pays the highest commission"],
     correct: 1,
-    explanation: "Medicare agents must ALWAYS act in the best interest of the beneficiary - not the insurer, not themselves. This is the core ethical principle of Medicare sales and shows up on every licensing exam."
+    explanation: "Medicare agents must ALWAYS act in the best interest of the beneficiary — not the insurer, not themselves. This is the core ethical principle of Medicare sales and shows up on every licensing exam."
   }
+];
+
+const ETHICS_QUESTIONS = [
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What is 'steering'?", options: ["Cross-selling", "Scope expansion", "Guiding someone toward plans they did NOT ask about", "Compliance flexibility"], correct: 2, explanation: "💛 Steering means guiding someone toward something they didn't request. Medicare rules protect the client's choice — we only talk about what they asked for.\n👉 Think: 'I follow their lead, not mine.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What must you have before discussing plans with a client?", options: ["Verbal permission", "Signed Scope of Appointment (SOA)", "Driver's license", "Proof of income"], correct: 1, explanation: "💛 The SOA is like a permission slip. It protects both you and the client by clearly saying what you're allowed to talk about.\n👉 Think: 'No SOA = no plan discussion.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "How long must you keep the Scope of Appointment (SOA) on file?", options: ["1 year", "3 years", "10 years", "Until renewal"], correct: 2, explanation: "💛 This is about accountability. If anything is ever questioned, there needs to be a record.\n👉 Think: 'Keep it long-term, just in case.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you offer a $50 gift card to encourage someone to enroll?", options: ["Yes", "Yes if disclosed", "No, it exceeds the $15 limit", "Only during AEP"], correct: 2, explanation: "💛 Gifts are allowed, but only small ones. The goal is to avoid influencing someone's decision unfairly.\n👉 Think: 'Small appreciation, not persuasion.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Which of the following is considered misleading to a client?", options: ["Clear explanations", "Official documents", "Saying a plan is 'free' without full details", "Answering client questions"], correct: 2, explanation: "💛 Even if something sounds good, it must be fully honest. 'Free' without explanation can confuse people.\n👉 Think: 'Clear beats catchy.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "When can you call a Medicare beneficiary?", options: ["If you find their number", "If they are over 65", "Only if they gave you permission", "During normal business hours"], correct: 2, explanation: "💛 This protects people from unwanted calls. Clients must always be in control of when contact happens.\n👉 Think: 'No permission = no call.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What is the Scope of Appointment (SOA) really for?", options: ["Enrollment paperwork", "Identity check", "To define what topics you are allowed to discuss", "Payment collection"], correct: 2, explanation: "💛 It keeps the appointment focused and respectful to the client's needs.\n👉 Think: 'Stay in the lane they chose.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Which of these is a high-pressure sales tactic?", options: ["Explaining urgency clearly", "Encouraging questions", "Saying 'This offer ends tomorrow, sign now'", "Reviewing plan options together"], correct: 2, explanation: "💛 Clients should feel safe — not rushed. High-pressure tactics are prohibited in Medicare sales.\n👉 Think: 'Support, don't pressure.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "How should you always present plan information to a client?", options: ["Fast and persuasive", "Short and simple only", "Accurate, complete, and not misleading", "Focus only on the benefits"], correct: 2, explanation: "💛 This builds trust and keeps you compliant. Complete honesty is the standard.\n👉 Think: 'Truth over sales.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Who sets the rules that Medicare agents must follow?", options: ["California state only", "Insurance companies", "CMS — Centers for Medicare and Medicaid Services", "The Social Security Administration"], correct: 2, explanation: "💛 CMS makes the rules to protect Medicare beneficiaries nationwide.\n👉 Think: 'Follow CMS, stay safe.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you discuss plans that are NOT listed on the Scope of Appointment during a meeting?", options: ["Yes, if the client asks during the meeting", "Yes, if it helps the client", "No — you must stick exactly to the SOA", "Only during AEP"], correct: 2, explanation: "💛 The SOA protects the client from being overwhelmed or pressured into discussing things they didn't agree to.\n👉 Think: 'Stay within what was agreed.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What should you do if a client asks about a plan that is NOT on the SOA?", options: ["Go ahead and explain it anyway", "Ignore the question", "Tell them to research it themselves", "Schedule a new appointment with an updated SOA"], correct: 3, explanation: "💛 You are still helping — but in a compliant, respectful way. Updating the SOA is the right move.\n👉 Think: 'Pause, update, then proceed.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you market Medicare plans door-to-door without prior permission?", options: ["Yes", "Yes, during AEP", "No — this is not allowed", "Only in certain areas"], correct: 2, explanation: "💛 Unsolicited door-to-door contact is strictly prohibited in Medicare marketing.\n👉 Think: 'They must invite you in.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What is considered unsolicited contact?", options: ["Calling someone who gave permission", "Meeting by appointment", "Calling someone without their permission", "Responding to an inquiry"], correct: 2, explanation: "💛 Clients should always feel in control of the interaction. Contact without permission violates their trust and Medicare rules.\n👉 Think: 'No invite, no contact.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you leave marketing materials at someone's home without their permission?", options: ["Yes", "No — this is not allowed", "Only if materials are clearly labeled", "Only during AEP"], correct: 1, explanation: "💛 Even leaving materials can be considered unsolicited marketing. Always get permission first.\n👉 Think: 'Respect their space.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What should you do if you realize you made a mistake when explaining a plan?", options: ["Ignore it and move on", "Fix it only if the client notices", "Correct it as soon as possible", "Blame the plan materials"], correct: 2, explanation: "💛 Honesty builds trust and keeps you compliant. Fixing mistakes quickly is the ethical and professional thing to do.\n👉 Think: 'Fix it fast, be honest.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you tell a client that your plan is 'the best' plan available?", options: ["Yes", "Yes, if you personally believe it", "No — that is misleading", "Only with written proof"], correct: 2, explanation: "💛 There is no one 'best' plan — only what is best for each individual client. Making that claim is misleading.\n👉 Think: 'Guide, don't claim.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What should you do if a client seems confused during your explanation?", options: ["Move faster to save time", "Skip the confusing details", "Slow down and explain clearly", "Tell them to decide later on their own"], correct: 2, explanation: "💛 Clarity is part of ethical behavior. Every client deserves to understand what they are agreeing to.\n👉 Think: 'Understanding first.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you use fear to encourage a client to enroll in a plan?", options: ["Yes", "Yes, if the fear is based on true facts", "No — fear-based selling is not ethical", "Only during AEP"], correct: 2, explanation: "💛 Fear-based selling is not ethical and is prohibited. Clients should feel supported and informed, not scared.\n👉 Think: 'Support, don't scare.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What is the most important principle in every Medicare sales interaction?", options: ["Closing the sale", "Selling as quickly as possible", "Helping the client make an informed decision", "Promoting one specific plan"], correct: 2, explanation: "💛 This is the heart of everything. Every rule, every form, every conversation comes back to this one principle.\n👉 Think: 'Serve first, always.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What is 'cross-selling' in a Medicare appointment?", options: ["Explaining only one plan clearly", "Offering unrelated products that the client did not request", "Reviewing plan benefits together", "Answering the client's questions"], correct: 1, explanation: "💛 Cross-selling outside the agreed scope is not allowed. Stay focused on what the client came to discuss.\n👉 Think: 'Only what they asked about.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you record a sales call without telling the client?", options: ["Yes", "Yes, for training purposes", "No — the client must know and agree", "Only with manager approval"], correct: 2, explanation: "💛 Clients must know and agree to being recorded. Transparency is required at all times.\n👉 Think: 'Always be transparent.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What should you do with a client's personal information?", options: ["Share it with your team freely", "Keep it secure and private", "Use it for future marketing", "Store it anywhere convenient"], correct: 1, explanation: "💛 Protecting personal data is both a legal and ethical responsibility. Client information is never yours to share freely.\n👉 Think: 'Protect their trust.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you pre-fill an application for a client to save time?", options: ["Yes", "Yes, to save time during the appointment", "No — only if they provide the information directly to you", "Only for renewals"], correct: 2, explanation: "💛 Applications must reflect the client's true and confirmed information. Pre-filling without their direct input is not acceptable.\n👉 Think: 'Their info, their voice.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What does 'beneficiary confidentiality' mean?", options: ["Keeping plan details secret from the public", "Protecting the client's personal and health information", "Hiding pricing from competitors", "Avoiding difficult conversations"], correct: 1, explanation: "💛 Clients trust you with sensitive details — their health, income, and personal life. You must safeguard that information always.\n👉 Think: 'Private means private.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you imply that you work for Medicare or the government?", options: ["Yes", "Yes, if it helps build trust", "No — this is strictly prohibited", "Only in written materials"], correct: 2, explanation: "💛 Implying you represent Medicare or the government is misleading and strictly prohibited by CMS rules.\n👉 Think: 'Be clear who you are.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What should you do if a client wants time to think before deciding?", options: ["Push them to decide today", "Set a firm deadline for them", "Respect their decision and give them space", "Call them repeatedly to follow up"], correct: 2, explanation: "💛 Clients should never feel pressured. Their timeline matters and must be respected completely.\n👉 Think: 'Their pace matters.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "Can you use outdated plan information when presenting to a client?", options: ["Yes", "Yes, if it is close to current", "No — always use accurate and current information", "Only as examples"], correct: 2, explanation: "💛 Accurate and current information is essential for every client to make a truly informed decision.\n👉 Think: 'Always up-to-date.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What does 'compliance' mean in Medicare sales?", options: ["Selling the most plans possible", "Following all rules and regulations", "Closing sales as quickly as possible", "Meeting monthly quotas"], correct: 1, explanation: "💛 Compliance keeps both you and the client protected. It is not a burden — it is how trust is built.\n👉 Think: 'Follow the rules, protect everyone.'" },
+  { category: "Ethics & Compliance", tag: "tag-ethics", q: "What should guide every single interaction you have with a client?", options: ["Your personal sales goals", "Time limits on appointments", "The client's needs and best interest", "Company bonuses and incentives"], correct: 2, explanation: "💛 Everything comes back to this. People over profit. Client first. Always.\n👉 Think: 'People over profit. Always.'" }
 ];
 
 let mode = 10;
@@ -456,11 +394,21 @@ let current = 0;
 let score = 0;
 let answered = [];
 let selectedMode = 10;
+let selectedType = 'all';
 
 function setMode(n) {
   selectedMode = n;
+  selectedType = 'all';
   document.getElementById('mode-10').classList.toggle('active', n === 10);
   document.getElementById('mode-20').classList.toggle('active', n === 20);
+  document.getElementById('mode-ethics').classList.remove('active');
+}
+
+function setEthicsMode() {
+  selectedType = 'ethics';
+  document.getElementById('mode-10').classList.remove('active');
+  document.getElementById('mode-20').classList.remove('active');
+  document.getElementById('mode-ethics').classList.add('active');
 }
 
 function shuffle(arr) {
@@ -473,9 +421,14 @@ function shuffle(arr) {
 }
 
 function startQuiz() {
-  mode = selectedMode;
-  const shuffled = shuffle(ALL_QUESTIONS);
-  questions = shuffled.slice(0, mode).map(q => ({
+  let pool;
+  if (selectedType === 'ethics') {
+    pool = shuffle(ETHICS_QUESTIONS);
+  } else {
+    mode = selectedMode;
+    pool = shuffle(ALL_QUESTIONS).slice(0, mode);
+  }
+  questions = pool.map(q => ({
     ...q,
     options: q.options.map((o, i) => ({ text: o, originalIndex: i }))
   }));
@@ -492,8 +445,8 @@ function loadQuestion() {
   const q = questions[current];
   const total = questions.length;
   document.getElementById('progress-fill').style.width = ((current / total) * 100) + '%';
-  document.getElementById('progress-text').textContent = 'Question ' + (current + 1) + ' of ' + total;
-  document.getElementById('score-display').textContent = 'Score: ' + score;
+  document.getElementById('progress-text').textContent = `Question ${current + 1} of ${total}`;
+  document.getElementById('score-display').textContent = `Score: ${score}`;
   document.getElementById('category-tag').textContent = q.category;
   document.getElementById('category-tag').className = 'category-tag ' + q.tag;
   document.getElementById('question-text').textContent = q.q;
@@ -504,7 +457,7 @@ function loadQuestion() {
   shuffledOptions.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'option';
-    btn.innerHTML = '<span class="option-letter">' + letters[i] + '</span><span>' + opt.text + '</span>';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt.text}</span>`;
     btn.onclick = () => selectAnswer(btn, opt.originalIndex, shuffledOptions, q.correct);
     container.appendChild(btn);
   });
@@ -537,7 +490,7 @@ function selectAnswer(btn, selectedIndex, shuffledOptions, correctOriginalIndex)
     });
     showFeedback(false, q.explanation);
   }
-  document.getElementById('score-display').textContent = 'Score: ' + score;
+  document.getElementById('score-display').textContent = `Score: ${score}`;
   document.getElementById('next-btn').classList.add('visible');
 }
 
@@ -545,10 +498,10 @@ function showFeedback(correct, explanation) {
   const fb = document.getElementById('feedback');
   if (correct) {
     fb.className = 'feedback correct-fb';
-    fb.innerHTML = '<strong>Correct!</strong><div class="explanation">' + explanation + '</div>';
+    fb.innerHTML = `<strong>Correct!</strong><div class="explanation">${explanation}</div>`;
   } else {
     fb.className = 'feedback wrong-fb';
-    fb.innerHTML = '<strong>Not quite — but here\'s what to know:</strong><div class="explanation">' + explanation + '</div>';
+    fb.innerHTML = `<strong>Not quite — but here's what to know:</strong><div class="explanation">${explanation}</div>`;
   }
 }
 
@@ -581,14 +534,18 @@ function showResults() {
   }
   document.getElementById('results-icon').textContent = icon;
   document.getElementById('results-title').textContent = title;
-  document.getElementById('score-big').textContent = score + '/' + questions.length;
+  document.getElementById('score-big').textContent = `${score}/${questions.length}`;
   document.getElementById('results-message').textContent = message;
   const list = document.getElementById('breakdown-list');
   list.innerHTML = '';
   answered.forEach((a, i) => {
     const item = document.createElement('div');
     item.className = 'breakdown-item';
-    item.innerHTML = '<div class="breakdown-dot ' + (a.correct ? 'dot-correct' : 'dot-wrong') + '"></div><span style="flex:1;font-size:0.85rem;color:var(--ink-soft)">Q' + (i+1) + ': ' + a.q.substring(0,60) + (a.q.length > 60 ? '...' : '') + '</span><span style="font-size:0.8rem;font-weight:600;color:' + (a.correct ? 'var(--teal-dark)' : 'var(--coral)') + '">' + (a.correct ? '✓' : '✗') + '</span>';
+    item.innerHTML = `
+      <div class="breakdown-dot ${a.correct ? 'dot-correct' : 'dot-wrong'}"></div>
+      <span style="flex:1;font-size:0.85rem;color:var(--ink-soft)">Q${i+1}: ${a.q.substring(0,60)}${a.q.length > 60 ? '...' : ''}</span>
+      <span style="font-size:0.8rem;font-weight:600;color:${a.correct ? 'var(--teal-dark)' : 'var(--coral)'}">${a.correct ? '✓' : '✗'}</span>
+    `;
     list.appendChild(item);
   });
 }
@@ -596,141 +553,6 @@ function showResults() {
 function restartQuiz() {
   document.getElementById('results-screen').classList.add('hidden');
   document.getElementById('start-screen').classList.remove('hidden');
-}
-
-function showHomeTab(tab) {
-  document.getElementById('tab-quiz').classList.toggle('active', tab === 'quiz');
-  document.getElementById('tab-roleplay').classList.toggle('active', tab === 'roleplay');
-  document.getElementById('home-quiz-panel').classList.toggle('hidden', tab !== 'quiz');
-  document.getElementById('home-roleplay-panel').classList.toggle('hidden', tab === 'quiz');
-}
-
-const ROLEPLAY_SCENARIOS = [
-  {
-    q: "I turn 65 next month. When exactly do I need to sign up for Medicare?",
-    followups: ["What happens if I miss that window?", "Can I sign up online or do I have to go somewhere?", "Will I get something in the mail telling me when to sign up?"],
-    answer: "You have a 7-month Initial Enrollment Period - starting 3 months before your 65th birthday month, the month you turn 65, and 3 months after. If you're already receiving Social Security benefits, you'll be enrolled automatically. If not, you need to contact Social Security to sign up. Missing this window without qualifying coverage means permanent late penalties.",
-    source: "Medicare.gov | SSA.gov - ssa.gov/medicare"
-  },
-  {
-    q: "What is the penalty if I don't sign up on time?",
-    followups: ["Is that penalty temporary or does it last forever?", "What if I had insurance through my job - does that protect me?", "How much would the penalty add to my monthly bill?"],
-    answer: "For Part B, your monthly premium goes up 10% for every full 12-month period you delayed without qualifying coverage - and that penalty is permanent. For Part D (prescriptions), the penalty is 1% of the national base beneficiary premium ($38.99 in 2026) multiplied by the number of months you went without coverage. If you had creditable employer coverage, you may qualify for a Special Enrollment Period with no penalty.",
-    source: "Medicare.gov - Avoid Late Enrollment Penalties | CMS.gov"
-  },
-  {
-    q: "What's the difference between Original Medicare and Medicare Advantage? My neighbor says I should get Advantage.",
-    followups: ["Which one lets me keep my doctor?", "Which one covers dental and vision?", "Can I switch between them if I make the wrong choice?"],
-    answer: "Original Medicare (Parts A & B) is run by the federal government and gives you access to any doctor or hospital that accepts Medicare - no network restrictions. Medicare Advantage (Part C) is offered by private insurance companies approved by Medicare, and typically includes drug coverage plus extra benefits like dental, vision, and hearing. However, Advantage plans have provider networks, so you must use their approved doctors. The right choice depends on the person's doctors, medications, and how often they travel.",
-    source: "Medicare.gov - Compare Original Medicare & Medicare Advantage"
-  },
-  {
-    q: "How much is Medicare going to cost me every month?",
-    followups: ["Do I have to pay for Part A too?", "What is a deductible and do I have to pay that?", "What if I have a higher income - does that change what I pay?"],
-    answer: "In 2026, the standard Part B monthly premium is $202.90. Most people don't pay a premium for Part A if they or their spouse worked and paid Medicare taxes for at least 10 years. The annual Part B deductible is $283 - after that, Medicare generally covers 80% of approved costs and you pay 20%. If your income is higher, you may pay an IRMAA surcharge that can range up to $689.90 per month for Part B.",
-    source: "CMS.gov - 2026 Medicare Parts A & B Premiums and Deductibles"
-  },
-  {
-    q: "Does Medicare cover my prescriptions?",
-    followups: ["What if my drug isn't on their list?", "Is prescription coverage automatic or do I have to sign up separately?", "What if I can't afford my prescriptions?"],
-    answer: "Prescription coverage is Medicare Part D. It's optional but strongly recommended - even if you don't take medications now - to avoid late enrollment penalties later. Part D is offered through private insurance companies approved by Medicare. Each plan has a formulary (drug list), and if your medication isn't on it, you can request an exception or file an appeal. Low-income individuals may qualify for the Extra Help program through Social Security.",
-    source: "Medicare.gov - What's Medicare Drug Coverage (Part D)? | SSA.gov - Extra Help Program"
-  },
-  {
-    q: "My doctor told me Original Medicare is better, but the TV commercials make Advantage look amazing. Who's right?",
-    followups: ["Why would a doctor prefer Original Medicare?", "Is Medicare Advantage really free like the commercials say?", "What happens if I need to go to a specialist with Medicare Advantage?"],
-    answer: "Both can be good depending on the person's situation. Doctors sometimes prefer Original Medicare because there are no prior authorization requirements or network restrictions. Medicare Advantage commercials often advertise $0 premiums, but you still pay your Part B premium of $202.90 in 2026. Advantage plans have maximum out-of-pocket limits which can protect you financially, but prior authorization for specialists can cause delays.",
-    source: "Medicare.gov | 2024 Commonwealth Fund Survey | Boomer Benefits"
-  },
-  {
-    q: "I'm still working at 65. Do I have to sign up for Medicare right now?",
-    followups: ["What if my employer has fewer than 20 employees?", "When do I sign up once I retire?", "What about my spouse - are they covered under my employer plan?"],
-    answer: "If you have coverage through a current employer's group health plan and the employer has 20 or more employees, you can delay Part B without penalty and sign up during a Special Enrollment Period when you retire or lose that coverage. If the employer has fewer than 20 employees, Medicare pays first and you should sign up at 65. Your spouse's coverage depends on the employer's plan - they should check directly with HR.",
-    source: "SSA.gov - Medicare Publication 05-10043 | Medicare.gov - Special Enrollment Period"
-  },
-  {
-    q: "Does Medicare cover dental, vision, and hearing? I have a lot of dental work I need done.",
-    followups: ["What about routine eye exams for glasses?", "Can I add dental coverage somehow?", "What about hearing aids - those are so expensive."],
-    answer: "Original Medicare does NOT cover routine dental care, eye exams for glasses, or hearing aids. These are major coverage gaps. However, Medicare Advantage plans often include these extra benefits - routine dental exams, X-rays, vision exams, and hearing aid allowances. If someone is on Original Medicare, they can purchase a separate dental or vision plan. It's important to compare Advantage plans in their area at Medicare.gov.",
-    source: "Medicare.gov - What's Not Covered by Part A & Part B | medicare.gov/coverage"
-  },
-  {
-    q: "Do I have to take Social Security at 65 when I take Medicare?",
-    followups: ["What if I want to wait until 70 to get a bigger Social Security check?", "Can I take Medicare now and Social Security later?", "If I delay Social Security, do I still get Medicare automatically?"],
-    answer: "No - Medicare and Social Security are separate decisions. You can take Medicare at 65 and delay Social Security until 70 to receive a larger monthly benefit. However, if you're not yet receiving Social Security, you will NOT be automatically enrolled in Medicare - you must contact Social Security directly to sign up during your Initial Enrollment Period. Social Security benefits increase approximately 8% for each year you delay past full retirement age, up to age 70.",
-    source: "SSA.gov - Sign up for Medicare | Medicare.gov - Get started with Medicare"
-  },
-  {
-    q: "Can I change my Medicare plan if I pick the wrong one?",
-    followups: ["When can I switch plans?", "What if I join Medicare Advantage and my doctor leaves the network?", "If I leave Medicare Advantage, can I always go back to Original Medicare?"],
-    answer: "Yes, but only during specific enrollment periods. The Annual Enrollment Period runs October 15 through December 7 each year - this is when anyone can switch plans. There's also an Open Enrollment Period from January 1 to March 31 for Medicare Advantage enrollees to switch or return to Original Medicare. Switching from Advantage back to Original Medicare is possible, but getting a Medigap supplement after leaving Advantage can be difficult in some states - insurers may require medical underwriting.",
-    source: "Medicare.gov - When Can I Join a Health or Drug Plan | Medicare Open Enrollment Periods 2026"
-  }
-];
-
-let rpCurrent = 0;
-
-function startRolePlay() {
-  rpCurrent = 0;
-  document.getElementById('start-screen').classList.add('hidden');
-  document.getElementById('roleplay-done-screen').classList.add('hidden');
-  document.getElementById('roleplay-screen').classList.remove('hidden');
-  loadScenario();
-}
-
-function loadScenario() {
-  const s = ROLEPLAY_SCENARIOS[rpCurrent];
-  const total = ROLEPLAY_SCENARIOS.length;
-  document.getElementById('rp-progress-fill').style.width = ((rpCurrent / total) * 100) + '%';
-  document.getElementById('rp-progress-text').textContent = 'Scenario ' + (rpCurrent + 1) + ' of ' + total;
-  document.getElementById('scenario-num').textContent = 'SCENARIO ' + (rpCurrent + 1);
-  document.getElementById('rp-question').textContent = s.q;
-  const fu = document.getElementById('rp-followups');
-  fu.innerHTML = s.followups.map(f => '<li>' + f + '</li>').join('');
-  document.getElementById('rp-answer').textContent = s.answer;
-  document.getElementById('rp-source').textContent = s.source;
-  document.getElementById('rp-answer').classList.remove('visible');
-  document.getElementById('rp-source').classList.remove('visible');
-  document.getElementById('reveal-btn').classList.remove('hidden-btn');
-  document.getElementById('answer-label').style.display = 'none';
-  document.getElementById('source-label').style.display = 'none';
-  document.getElementById('rp-prev-btn').disabled = rpCurrent === 0;
-  document.getElementById('rp-next-btn').textContent = rpCurrent < total - 1 ? 'Next Scenario →' : 'Finish Practice →';
-  document.getElementById('scenario-card').style.animation = 'none';
-  setTimeout(() => document.getElementById('scenario-card').style.animation = 'fadeUp 0.4s ease both', 10);
-}
-
-function revealAnswer() {
-  document.getElementById('rp-answer').classList.add('visible');
-  document.getElementById('rp-source').classList.add('visible');
-  document.getElementById('reveal-btn').classList.add('hidden-btn');
-  document.getElementById('answer-label').style.display = 'block';
-  document.getElementById('source-label').style.display = 'block';
-}
-
-function rpNav(dir) {
-  const next = rpCurrent + dir;
-  if (next < 0) return;
-  if (next >= ROLEPLAY_SCENARIOS.length) {
-    document.getElementById('roleplay-screen').classList.add('hidden');
-    document.getElementById('roleplay-done-screen').classList.remove('hidden');
-    return;
-  }
-  rpCurrent = next;
-  loadScenario();
-}
-
-function restartRolePlay() {
-  document.getElementById('roleplay-done-screen').classList.add('hidden');
-  startRolePlay();
-}
-
-function goHome() {
-  document.getElementById('roleplay-done-screen').classList.add('hidden');
-  document.getElementById('roleplay-screen').classList.add('hidden');
-  document.getElementById('results-screen').classList.add('hidden');
-  document.getElementById('start-screen').classList.remove('hidden');
-  showHomeTab('quiz');
 }
 </script>
 </body>
