@@ -348,6 +348,7 @@
     <div class="home-tabs">
       <button class="home-tab active" id="tab-quiz" onclick="showHomeTab('quiz')">📝 Exam Quiz</button>
       <button class="home-tab" id="tab-roleplay" onclick="showHomeTab('roleplay')">🎭 Role-Play Practice</button>
+      <button class="home-tab" id="tab-tracker" onclick="showHomeTab('tracker')">📋 Our Tracker</button>
     </div>
 
     <div id="home-quiz-panel">
@@ -375,13 +376,76 @@
     <div id="home-roleplay-panel" class="hidden">
       <div class="card">
         <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.5rem;">How to use this</p>
-        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">🎤 <strong>Evy reads</strong> the customer question out loud.</p>
+        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">🎤 <strong>Priscilla reads</strong> the customer question out loud.</p>
         <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">💬 <strong>Debbie answers</strong> as the insurance agent.</p>
-        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">🔍 <strong>Evy asks</strong> the follow-up questions to push deeper.</p>
+        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">🔍 <strong>Priscilla asks</strong> the follow-up questions to push deeper.</p>
         <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;">✅ <strong>Tap "Reveal Answer"</strong> to check if she got it right.</p>
       </div>
       <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">10 real customer scenarios · All sourced from Medicare.gov</p>
       <button class="start-btn" onclick="startRolePlay()">Start Role-Play →</button>
+    </div>
+
+    <!-- TRACKER PANEL -->
+    <div id="home-tracker-panel" class="hidden">
+      <div class="card" style="text-align:center;padding:2rem 1.5rem;">
+        <div style="font-size:48px;margin-bottom:1rem;">🌸</div>
+        <h2 style="font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:0.5rem;line-height:1.2;">Debbie &amp; Priscilla's<br>Mission Tracker</h2>
+        <p style="font-size:0.92rem;color:var(--ink-soft);line-height:1.6;margin-bottom:0.5rem;">From the 12-Hour Ethics Course all the way to<br><strong>AEP on October 15, 2026.</strong></p>
+        <p style="font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:1.75rem;">Check off every milestone together. See how far you've come. Built with love by Priscilla for Debbie. 💛</p>
+
+        <!-- Mini progress preview pulled from localStorage -->
+        <div id="tracker-mini-preview" style="margin-bottom:1.5rem;">
+          <div style="background:var(--border);border-radius:100px;height:10px;overflow:hidden;margin-bottom:0.5rem;">
+            <div id="mini-progress-fill" style="height:100%;background:var(--teal);border-radius:100px;width:0%;transition:width 0.6s ease;"></div>
+          </div>
+          <p style="font-size:0.82rem;color:var(--ink-soft);" id="mini-progress-label">Loading your progress…</p>
+        </div>
+
+        <a href="debbie_tracker_warm.html" style="
+          display:block;
+          background:var(--teal);
+          color:white;
+          font-family:'DM Sans',sans-serif;
+          font-size:1rem;
+          font-weight:700;
+          padding:1rem 1.5rem;
+          border-radius:14px;
+          text-decoration:none;
+          text-align:center;
+          margin-bottom:0.75rem;
+          transition:background 0.2s,transform 0.15s;
+          box-shadow:0 4px 14px rgba(29,158,117,0.25);
+        " onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(0.97)'" ontouchend="this.style.transform='scale(1)'">
+          Open Team Tracker →
+        </a>
+        <p style="font-size:0.78rem;color:var(--ink-soft);opacity:0.7;">19 milestones · 5 phases · Progress saves automatically</p>
+      </div>
+
+      <div class="card" style="padding:1.25rem 1.5rem;">
+        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">What's in the tracker</p>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.88rem;color:var(--ink-soft);">
+            <span style="background:var(--teal-light);color:var(--teal-dark);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">📖</span>
+            <span><strong style="color:var(--ink);">Phase 1</strong> — Ethics &amp; License Exam</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.88rem;color:var(--ink-soft);">
+            <span style="background:#FAEEDA;color:#B8760A;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">📋</span>
+            <span><strong style="color:var(--ink);">Phase 2</strong> — Fingerprints &amp; Official License</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.88rem;color:var(--ink-soft);">
+            <span style="background:#E6F1FB;color:#185FA5;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🏥</span>
+            <span><strong style="color:var(--ink);">Phase 3</strong> — AHIP &amp; Carrier Certifications</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.88rem;color:var(--ink-soft);">
+            <span style="background:var(--fund-light);color:var(--fund);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">✨</span>
+            <span><strong style="color:var(--ink);">Phase 4</strong> — Priscilla Builds the Lead Engine</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.88rem;color:var(--ink-soft);">
+            <span style="background:var(--coral-light);color:var(--coral);width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🌟</span>
+            <span><strong style="color:var(--ink);">Phase 5</strong> — First Sale &amp; AEP Ready</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -485,19 +549,57 @@ const ALL_QUESTIONS = [
   { category:"Ethics & Compliance", tag:"tag-ethics", q:"When must a Medicare agent always act?", options:["In the best interest of the insurance company","In the best interest of the beneficiary","In the best interest of their carrier","Based on whichever plan pays the highest commission"], correct:1, explanation:"Medicare agents must ALWAYS act in the best interest of the beneficiary — not the insurer, not themselves. This is the core ethical principle of Medicare sales and shows up on every licensing exam." },
 
   // ── NEW: Insurance Fundamentals (13 questions from Debbie's notes) ──
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"A fortuitious event — unforeseen and unintended. What is this called?", options:["Incident","Continuity","Accident","Occurrence"], correct:2, explanation:"An Accident is a fortuitious event — unforeseen and unintended.\n👉 Remember: NOT incident, NOT continuity." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"This term is used interchangeably with 'coverage' to denote the insurance provided under a policy. It also indicates the existence of fire-fighting facilities in a 'protected' area. What is it?", options:["Conditions","Restrictions","Coverage Area","Protection"], correct:3, explanation:"Protection is used interchangeably with 'coverage.'\n👉 Remember: NOT conditions, NOT restrictions." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"A risk where the loss must be capable of being defined, accidental, large enough to cause hardship, part of a homogeneous group, not subject to catastrophic simultaneous loss, and both the cost and chance of loss must be calculable. What is this called?", options:["Speculative Risk","Loss Risk","Insurable Risk","Pure Risk"], correct:2, explanation:"Insurable Risk meets all the required characteristics for insurance coverage.\n👉 Remember: NOT speculative risk, NOT loss risk." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"The state of being subject to the possibility of loss — measured by payroll, gate receipts, area, or other standards. What is this called?", options:["Hazard","Peril","Exposure","Risk Factor"], correct:2, explanation:"Exposure is the state of being subject to possible loss.\n👉 Remember: NOT hazard, NOT peril." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"This law states: the larger the number of exposures considered, the more closely losses will match the underlying probability — similar to how flipping a coin many times approaches 50/50. What is this?", options:["Actuary Law","Mortality Table","Law of Large Numbers","Probability Law"], correct:2, explanation:"The Law of Large Numbers: larger samples produce more accurate, predictable results.\n👉 Remember: NOT actuary law, NOT mortality table." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"A condition of morals or habits that increases the probability of loss from a peril — for example, someone who previously burned their own property to collect insurance. What is this?", options:["Morale Hazard","Intentional Hazard","Moral Hazard","Peril Condition"], correct:2, explanation:"Moral Hazard involves a character or behavior flaw that increases loss probability.\n👉 Remember: NOT morale hazard, NOT intentional hazard." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"The cause of possible loss. What is this called?", options:["Hazard","Risk","Exposure","Peril"], correct:3, explanation:"Peril is the cause of possible loss.\n👉 Remember: NOT hazard, NOT risk." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"Uncertainty as to whether a gain OR loss will occur — such as a business that might make money or lose it. These types of risks are NOT insurable. What are they called?", options:["Pure Risk","Normal Risk","Speculative Risk","Loss Risk"], correct:2, explanation:"Speculative Risk involves a chance of gain AND loss — it is illegal to insure.\n👉 Remember: NOT pure risk, NOT normal risk." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"The party to an insurance arrangement who undertakes to indemnify for losses or provide benefits. Preferred over 'carrier' or 'company' in statutory law. What is this party called?", options:["Insured","Owner","Carrier","Insurer"], correct:3, explanation:"Insurer is the preferred functional term used in statutory law — it applies to all types of organizations performing insurance functions.\n👉 Remember: NOT insured, NOT owner." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"An event that results in an insured loss. Unlike an accident, the loss does NOT have to be sudden — it can result from continuous or repeated exposure causing bodily injury or property damage. What is this called?", options:["Accidental Event","Incident","Occurrence","Fortuitious Event"], correct:2, explanation:"Occurrence is an insured loss event — it can be gradual, not just sudden.\n👉 Remember: NOT accidental, NOT incident." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"Taking steps to reduce the probability or severity of a possible loss — for example, installing alarms and sprinkler systems to reduce fire loss risk. What is this called?", options:["Hazard Reduction","Fire Loss Reduction","Risk Reduction","Loss Prevention"], correct:2, explanation:"Risk Reduction is one of the four major risk management techniques.\n👉 Remember: NOT hazard reduction, NOT fire loss reduction." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"All of the following are characteristics of an 'ideally insurable loss exposure' EXCEPT:", options:["Losses that are accidental","Large number of similar exposure units","Losses that are catastrophic in nature","Losses that are definite and measurable"], correct:2, explanation:"Catastrophic losses would NOT be covered — they cannot be effectively pooled or predicted. The other three ARE characteristics of an ideally insurable loss." },
-  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"All of the following are used to determine an insurable risk EXCEPT:", options:["Loss must be calculable","Risk of loss must represent a financial hardship","The risk of loss must be a speculative risk","Cost of insurance must be affordable"], correct:2, explanation:"Speculative risk is ILLEGAL in insurance — it cannot be used to determine insurability. The other three ARE valid criteria for insurable risk." }
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"A fortuitious event — unforeseen and unintended. What is this called?", options:["Incident","Continuity","Accident","Occurrence"], correct:2,
+    explanation:"Think of a kid on a bike who suddenly hits a pothole and falls. Nobody planned it, nobody wanted it — it just happened. That surprise, unplanned event is exactly what an Accident means in insurance.",
+    wrongChoices:{"Incident":"An incident is just something that happened — it could be planned or unplanned. Insurance needs to know it was a total surprise with no intention behind it. That makes it an Accident, not just an incident.","Continuity":"Continuity means things keep going without interruption — like the lights staying on. It has nothing to do with surprise events or unexpected losses. Very different idea!","Occurrence":"An Occurrence can be slow and gradual — like mold growing over months. An Accident has to be sudden and unexpected. They sound similar but mean different things on the exam."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"This term is used interchangeably with 'coverage' to denote the insurance provided under a policy. It also indicates the existence of fire-fighting facilities in a 'protected' area. What is it?", options:["Conditions","Restrictions","Coverage Area","Protection"], correct:3,
+    explanation:"When your mom puts a raincoat on you before school, she's giving you protection. Insurance works the same way — it covers you from harm. That's why Protection and coverage mean the exact same thing in an insurance policy.",
+    wrongChoices:{"Conditions":"Conditions are the rules of the policy — like 'you must report a claim within 30 days.' Rules aren't the same as the actual coverage itself. Conditions tell you HOW to use it. Protection IS it.","Restrictions":"Restrictions are the things insurance will NOT cover. That's actually the opposite of coverage! Protection is what you GET — restrictions are what's blocked.","Coverage Area":"Coverage Area refers to a location — like which zip codes a plan covers. Protection means the entire shield of insurance itself, not just a place on a map."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"A risk where the loss must be capable of being defined, accidental, large enough to cause hardship, part of a homogeneous group, not subject to catastrophic simultaneous loss, and both the cost and chance of loss must be calculable. What is this called?", options:["Speculative Risk","Loss Risk","Insurable Risk","Pure Risk"], correct:2,
+    explanation:"Think of insurance like a school nurse — she can only help kids who are actually sick in a real, measurable way. If you can't prove you're sick, she can't help. Insurable Risk works the same: the loss has to be real, measurable, and accidental before insurance will cover it.",
+    wrongChoices:{"Speculative Risk":"Speculative Risk is like gambling — you might win OR lose. Insurance never covers gambling. It only covers accidental, unintended losses. Speculative Risk is actually illegal to insure!","Loss Risk":"Loss Risk isn't a real insurance term. It's a distractor that sounds official but means nothing specific in the industry. Stick to the real categories.","Pure Risk":"Pure Risk is close — it means only loss or no loss can happen. But Pure Risk is just one type of risk. To actually be covered, it also has to meet all the other rules — which is what makes it Insurable Risk."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"The state of being subject to the possibility of loss — measured by payroll, gate receipts, area, or other standards. What is this called?", options:["Hazard","Peril","Exposure","Risk Factor"], correct:2,
+    explanation:"If you stand outside in the rain without an umbrella, you're exposed to getting wet. In insurance, Exposure is how much of something is 'out in the rain' — how many employees, how big the building, how many tickets sold. More exposure means more potential loss.",
+    wrongChoices:{"Hazard":"A hazard is something that makes a loss MORE likely — like a wet floor. Hazard is the danger itself. Exposure is how much you have sitting out there in that danger. One is the threat, one is what's at stake.","Peril":"Peril is the actual cause of a loss — like fire or flood. Exposure is how much you have at risk. Think of it this way: the storm is the peril, your beach house is the exposure.","Risk Factor":"Risk Factor is a general everyday phrase, not an official insurance term for this definition. Exposure is the specific word used in the industry to measure what's on the line."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"This law states: the larger the number of exposures considered, the more closely losses will match the underlying probability — similar to how flipping a coin many times approaches 50/50. What is this?", options:["Actuary Law","Mortality Table","Law of Large Numbers","Probability Law"], correct:2,
+    explanation:"If you flip a coin 4 times, you might get heads every time — weird! But flip it 10,000 times and you'll land very close to 50% heads. The more you do it, the more predictable it gets. That's the Law of Large Numbers — and it's how insurance companies know what to charge!",
+    wrongChoices:{"Actuary Law":"An actuary is a person whose job is to calculate risk — but the law they use to do that is called the Law of Large Numbers. Actuary Law isn't a real thing. The person uses the law, the law has its own name.","Mortality Table":"A Mortality Table is a chart showing how likely people are to die at certain ages. It's a tool that uses the Law of Large Numbers to work — but it's the tool, not the law itself.","Probability Law":"That sounds right, but it's not an official insurance term. On the exam, always use the exact name: Law of Large Numbers. Made-up-sounding options are usually traps!"} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"A condition of morals or habits that increases the probability of loss from a peril — for example, someone who previously burned their own property to collect insurance. What is this?", options:["Morale Hazard","Intentional Hazard","Moral Hazard","Peril Condition"], correct:2,
+    explanation:"Imagine a kid who 'accidentally' breaks his toys more often after learning his parents will always buy new ones. That's a character problem — he's working the system on purpose. Moral Hazard is when someone's dishonest habits make losses more likely to happen intentionally.",
+    wrongChoices:{"Morale Hazard":"Morale Hazard — spelled differently! — is when someone gets careless because they have insurance. Like not locking your car because 'it's insured anyway.' That's laziness. Moral Hazard is intentional dishonesty. One letter different, very different meaning!","Intentional Hazard":"Intentional Hazard isn't the official term the exam uses. The correct phrase is Moral Hazard. Always use the exact vocabulary — the exam is very specific about this.","Peril Condition":"A Peril is the cause of a loss (like fire) and a Condition describes policy rules. Moral Hazard is about a person's bad character — not a cause of loss or a rule in the policy."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"The cause of possible loss. What is this called?", options:["Hazard","Risk","Exposure","Peril"], correct:3,
+    explanation:"If your house catches fire, what caused the damage? The fire. Fire is the Peril. A peril is always the actual thing that caused the loss — fire, flood, theft, windstorm. When you buy insurance, you're buying protection against specific perils.",
+    wrongChoices:{"Hazard":"A hazard makes a peril more likely — like storing gasoline in your garage makes a fire more likely. The gasoline is the hazard. The fire is the peril. Hazard feeds into peril, but it's not the cause itself.","Risk":"Risk is the chance that a loss might happen someday. Peril is the specific thing that actually causes it when it does. Risk is the worry. Peril is the culprit.","Exposure":"Exposure is how much you have at risk — like how many buildings you own. Peril is what might damage them — like a hurricane. One is the target sitting out there, one is the threat coming for it."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"Uncertainty as to whether a gain OR loss will occur — such as a business that might make money or lose it. These types of risks are NOT insurable. What are they called?", options:["Pure Risk","Normal Risk","Speculative Risk","Loss Risk"], correct:2,
+    explanation:"Starting a lemonade stand could make you money OR lose money — you don't know! That's Speculative Risk: two possible directions, win or lose. Insurance will never cover this because you might actually profit. Insurance only covers 'oops' situations, never 'maybe I'll get lucky' situations.",
+    wrongChoices:{"Pure Risk":"Pure Risk only goes ONE direction — you either lose something or you don't. There's no winning. Your house either burns down or it doesn't. That's Pure Risk, and THAT is what insurance is designed to cover.","Normal Risk":"Normal Risk isn't a real insurance category. The exam uses specific terms — Pure Risk and Speculative Risk. There's no such thing as normal risk on the licensing exam.","Loss Risk":"Loss Risk isn't an official insurance term either. It's a distractor designed to sound familiar. Always stick to the real categories: Pure Risk and Speculative Risk."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"The party to an insurance arrangement who undertakes to indemnify for losses or provide benefits. Preferred over 'carrier' or 'company' in statutory law. What is this party called?", options:["Insured","Owner","Carrier","Insurer"], correct:3,
+    explanation:"Think of it like a promise: someone has to be the one who promises to pay when something goes wrong. That's the Insurer. In everyday life we call them 'the insurance company,' but on the exam and in the law, the official word is always Insurer.",
+    wrongChoices:{"Insured":"The Insured is YOU — the person who bought the policy and is being protected. The Insurer is the company that makes the promise to pay. Insured = the protected person. Insurer = the one writing the check.","Owner":"The owner holds the policy — sometimes the same as the insured, sometimes a different person (like a parent owning a policy on a child). But the owner doesn't pay claims. That's the Insurer's job.","Carrier":"Carrier is the everyday word agents use — like 'I'm contracted with five carriers.' But in official law, the correct word is Insurer. Same company, different vocabulary. The exam wants the legal term."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"An event that results in an insured loss. Unlike an accident, the loss does NOT have to be sudden — it can result from continuous or repeated exposure causing bodily injury or property damage. What is this called?", options:["Accidental Event","Incident","Occurrence","Fortuitious Event"], correct:2,
+    explanation:"If someone breathes in dust at a factory every day for 10 years and gets sick, that's not a sudden accident — it built up slowly over time. That slow build-up that causes a covered loss is called an Occurrence. It doesn't have to happen in one moment. It just has to result in a real, covered loss.",
+    wrongChoices:{"Accidental Event":"An Accident is always sudden and unexpected — like slipping on ice right now. An Occurrence can build up gradually over time. If it happened slowly over months or years, it's an Occurrence, not an Accident.","Incident":"An incident is just something that happened — it's a general everyday word. Insurance needs precision. Occurrence has a specific legal meaning: an insured loss event that can be either sudden or gradual.","Fortuitious Event":"A Fortuitous Event is basically an Accident — something unplanned and unintended that happens quickly. Occurrence is broader. It covers gradual things too, as long as they result in a covered loss."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"Taking steps to reduce the probability or severity of a possible loss — for example, installing alarms and sprinkler systems to reduce fire loss risk. What is this called?", options:["Hazard Reduction","Fire Loss Reduction","Risk Reduction","Loss Prevention"], correct:2,
+    explanation:"Before a big storm, smart families board up their windows so less damage happens. They're not stopping the storm — they're making sure it hurts less. That's Risk Reduction: taking smart steps ahead of time to make a loss less likely or less damaging if it does happen.",
+    wrongChoices:{"Hazard Reduction":"Hazard Reduction sounds almost right — and yes, removing a hazard does reduce risk. But the official insurance term for this whole risk management technique is Risk Reduction. Always use the exact term.","Fire Loss Reduction":"That's too specific. Risk Reduction applies to ALL types of potential loss, not just fires. Alarms, seat belts, smoke detectors, sprinklers — all Risk Reduction.","Loss Prevention":"Loss Prevention means trying to stop the loss from happening at all — like never driving in a snowstorm. Risk Reduction means the loss could still happen, but you've made it less likely or less damaging. Close cousins, not the same thing."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"All of the following are characteristics of an 'ideally insurable loss exposure' EXCEPT:", options:["Losses that are accidental","Large number of similar exposure units","Losses that are catastrophic in nature","Losses that are definite and measurable"], correct:2,
+    explanation:"Insurance works by spreading small losses across many people in a pool. But if ONE event wipes everybody out at the same time — like a massive earthquake destroying an entire city — there's no pool big enough to handle it. Catastrophic losses break the whole system. That's why they are NOT a characteristic of ideal insurable risk.",
+    wrongChoices:{"Losses that are accidental":"Accidental losses DO belong on this list. Insurance only covers things that weren't intentional — that's a required characteristic, not the exception. Keep this one, it's correct.","Large number of similar exposure units":"This one also belongs. Insurance companies need lots of similar people in the pool so they can predict losses accurately — that's the Law of Large Numbers working in real life. This is a required characteristic.","Losses that are definite and measurable":"This belongs too. Insurance has to be able to say exactly what happened and how much it cost. If a loss can't be defined or measured, it can't be paid. This is a required characteristic, not the exception."} },
+
+  { category:"Insurance Fundamentals", tag:"tag-fundamentals", q:"All of the following are used to determine an insurable risk EXCEPT:", options:["Loss must be calculable","Risk of loss must represent a financial hardship","The risk of loss must be a speculative risk","Cost of insurance must be affordable"], correct:2,
+    explanation:"Speculative Risk means you might win OR lose — like gambling or starting a business. Insurance is never allowed to cover that. It's actually illegal to insure speculative risks! So this is the one that does NOT belong on the list of how to determine insurable risk. All the others are valid, required criteria.",
+    wrongChoices:{"Loss must be calculable":"This one DOES belong on the list. If the insurance company can't calculate how likely a loss is or how much it would cost, they can't price the policy fairly. Calculable loss is a required condition for insurable risk.","Risk of loss must represent a financial hardship":"This one belongs too. If losing something wouldn't actually hurt you financially, there's no real reason to insure it. Insurance is for things that would truly cause hardship — that's a required condition.","Cost of insurance must be affordable":"This belongs as well. If the premium costs more than what you'd lose, nobody would buy insurance and the whole system falls apart. Affordability is required for insurance to work in the real world."} }
 ];
 
 // ── DEBBIE'S 30 ETHICS QUESTIONS (unchanged) ──
@@ -636,10 +738,12 @@ function selectAnswer(btn, selectedIndex, shuffledOptions, correctOriginalIndex)
   allBtns.forEach(b => b.disabled = true);
   const isCorrect = selectedIndex === correctOriginalIndex;
   const q = questions[current];
+  // Find the text of the selected option (for wrong-choice lookup)
+  const selectedOptionText = q.options.find(o => o.originalIndex === selectedIndex)?.text || '';
   if (isCorrect) {
     btn.classList.add('correct'); score++;
     answered.push({ q: q.q, correct: true });
-    showFeedback(true, q.explanation);
+    showFeedback(true, q.explanation, null, q);
   } else {
     btn.classList.add('wrong');
     answered.push({ q: q.q, correct: false });
@@ -647,20 +751,29 @@ function selectAnswer(btn, selectedIndex, shuffledOptions, correctOriginalIndex)
       const idx = shuffledOptions[Array.from(allBtns).indexOf(b)]?.originalIndex;
       if (idx === correctOriginalIndex) b.classList.add('reveal');
     });
-    showFeedback(false, q.explanation);
+    showFeedback(false, q.explanation, selectedOptionText, q);
   }
   document.getElementById('score-display').textContent = `Score: ${score}`;
   document.getElementById('next-btn').classList.add('visible');
 }
 
-function showFeedback(correct, explanation) {
+function showFeedback(correct, explanation, selectedOptionText, q) {
   const fb = document.getElementById('feedback');
+  // Check if this question has per-option wrong feedback
+  const wrongChoices = q && q.wrongChoices;
   if (correct) {
     fb.className = 'feedback correct-fb';
-    fb.innerHTML = `<strong>Correct!</strong><div class="explanation">${explanation.replace(/\n/g,'<br>')}</div>`;
+    fb.innerHTML = `<strong>Correct! ✓</strong><div class="explanation">${explanation.replace(/\n/g,'<br>')}</div>`;
   } else {
     fb.className = 'feedback wrong-fb';
-    fb.innerHTML = `<strong>Not quite — but here's what to know:</strong><div class="explanation">${explanation.replace(/\n/g,'<br>')}</div>`;
+    // If wrongChoices exists and we have a match for what they picked, show it
+    let wrongMsg = '';
+    if (wrongChoices && selectedOptionText && wrongChoices[selectedOptionText]) {
+      wrongMsg = wrongChoices[selectedOptionText];
+    } else {
+      wrongMsg = explanation;
+    }
+    fb.innerHTML = `<strong>Not quite!</strong><div class="explanation">${wrongMsg.replace(/\n/g,'<br>')}</div>`;
   }
 }
 
@@ -701,8 +814,31 @@ function restartQuiz() {
 function showHomeTab(tab) {
   document.getElementById('tab-quiz').classList.toggle('active', tab === 'quiz');
   document.getElementById('tab-roleplay').classList.toggle('active', tab === 'roleplay');
+  document.getElementById('tab-tracker').classList.toggle('active', tab === 'tracker');
   document.getElementById('home-quiz-panel').classList.toggle('hidden', tab !== 'quiz');
-  document.getElementById('home-roleplay-panel').classList.toggle('hidden', tab === 'quiz');
+  document.getElementById('home-roleplay-panel').classList.toggle('hidden', tab !== 'roleplay');
+  document.getElementById('home-tracker-panel').classList.toggle('hidden', tab !== 'tracker');
+  if (tab === 'tracker') loadTrackerPreview();
+}
+
+function loadTrackerPreview() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('debbie_warm_v1') || '{}');
+    const total = 19;
+    const done = Object.values(saved).filter(v => v && v.done).length;
+    const pct = Math.round(done / total * 100);
+    const fill = document.getElementById('mini-progress-fill');
+    const label = document.getElementById('mini-progress-label');
+    if (fill) fill.style.width = pct + '%';
+    if (label) {
+      if (done === 0) label.textContent = 'No steps checked off yet — open the tracker to get started!';
+      else if (done === total) label.textContent = '🎉 All 19 steps complete — AEP ready!';
+      else label.textContent = `${done} of ${total} steps complete (${pct}%) — keep going, Debbie! 💪`;
+    }
+  } catch(e) {
+    const label = document.getElementById('mini-progress-label');
+    if (label) label.textContent = 'Open the tracker to see your progress.';
+  }
 }
 
 let rpCurrent = 0;
