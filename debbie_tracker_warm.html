@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Debbie & Priscilla — Medicare Launch Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6ee;
+    --warm-white: #fffbf6;
+    --peach: #f5e6d3;
+    --peach2: #eedcc8;
+    --terracotta: #c4704a;
+    --terracotta-light: #faeee6;
+    --sage: #6b8f71;
+    --sage-light: #e8f0e9;
+    --sage-dark: #4a6b50;
+    --gold: #c9963a;
+    --gold-light: #fdf3e0;
+    --dusty-rose: #c47a7a;
+    --rose-light: #fbeaea;
+    --ink: #3a2e28;
+    --ink-soft: #6b5c52;
+    --muted: #a08c80;
+    --border: rgba(180,140,110,0.2);
+    --border2: rgba(180,140,110,0.35);
+    --shadow: rgba(80,50,30,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html { font-size: 18px; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(160deg, #c4704a 0%, #a85c3c 100%);
+    color: white;
+    padding: 36px 24px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 24px;
+    background: var(--cream);
+    border-radius: 20px 20px 0 0;
+  }
+  .header-flowers {
+    position: absolute;
+    top: 12px; right: 16px;
+    font-size: 52px;
+    opacity: 0.18;
+    line-height: 1;
+    user-select: none;
+  }
+  .header-tag {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    color: white;
+  }
+  .header-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+    max-width: 320px;
+    margin-bottom: 20px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    background: rgba(255,255,255,0.2);
+    border-radius: 30px;
+    height: 14px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: white;
+    border-radius: 30px;
+    transition: width 0.7s ease;
+    min-width: 4px;
+  }
+  .progress-label {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 600;
+  }
+  .progress-label span { color: white; font-weight: 800; }
+
+  /* ── AEP BANNER ── */
+  .aep-banner {
+    margin: 20px 16px 0;
+    background: var(--gold-light);
+    border: 2px solid rgba(201,150,58,0.3);
+    border-radius: 16px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .aep-emoji { font-size: 28px; flex-shrink: 0; }
+  .aep-text { flex: 1; }
+  .aep-text strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .aep-text span { font-size: 13px; color: var(--ink-soft); line-height: 1.4; display: block; }
+  .aep-count {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .aep-num {
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--terracotta);
+    line-height: 1;
+    display: block;
+  }
+  .aep-days-word {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── MAIN ── */
+  .main { padding: 12px 16px; }
+
+  /* ── WHO LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 14px 0 4px;
+    margin-bottom: 8px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+
+  /* ── PHASE ── */
+  .phase { margin-bottom: 28px; }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px 14px 0 0;
+    margin-bottom: 2px;
+  }
+  .phase-icon { font-size: 24px; flex-shrink: 0; }
+  .phase-title-wrap { flex: 1; }
+  .phase-title {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: white;
+  }
+  .phase-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .phase-count {
+    background: rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 800;
+    color: white;
+    white-space: nowrap;
+  }
+
+  /* Phase progress mini bar */
+  .phase-mini-bar {
+    height: 5px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 0;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .phase-mini-fill {
+    height: 100%;
+    transition: width 0.5s ease;
+  }
+
+  /* ── TASK ── */
+  .task {
+    background: var(--warm-white);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .task.done {
+    background: var(--sage-light);
+    border-color: rgba(107,143,113,0.35);
+  }
+  .task-inner {
+    padding: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* Checkbox */
+  .task-check {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 2.5px solid var(--border2);
+    background: white;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.25s ease;
+    margin-top: 2px;
+  }
+  .task.done .task-check {
+    background: var(--sage);
+    border-color: var(--sage);
+    box-shadow: 0 0 0 4px rgba(107,143,113,0.2);
+  }
+
+  /* Task content */
+  .task-content { flex: 1; min-width: 0; }
+  .task-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 5px;
+    transition: color 0.2s;
+  }
+  .task.done .task-title {
+    color: var(--sage-dark);
+    text-decoration: line-through;
+    text-decoration-color: rgba(107,143,113,0.5);
+  }
+  .task-desc {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+  .task.done .task-desc { color: var(--muted); }
+
+  /* Tags row */
+  .task-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .tag {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+  .tag-debbie { background: #e8f0fb; color: #3b6bc4; }
+  .tag-priscilla { background: #f3edfb; color: #7b4fbf; }
+  .tag-both { background: var(--gold-light); color: var(--gold); }
+  .tag-cost { background: var(--terracotta-light); color: var(--terracotta); }
+  .tag-warning { background: #fff5e6; color: #c07a20; }
+
+  /* Date completed */
+  .task-date {
+    font-size: 13px;
+    color: var(--sage-dark);
+    font-weight: 700;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Warn callout */
+  .task-warn {
+    background: #fff5e0;
+    border-left: 3px solid #e09a30;
+    border-radius: 0 8px 8px 0;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #8a5e10;
+    margin-bottom: 8px;
+    line-height: 1.45;
+    font-weight: 600;
+  }
+
+  /* Notes toggle */
+  .notes-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 4px 0 0;
+    border: none;
+    background: none;
+    font-family: 'Nunito', sans-serif;
+    transition: color 0.2s;
+  }
+  .notes-toggle:active { color: var(--terracotta); }
+  .notes-toggle span { font-size: 18px; }
+
+  /* Notes area */
+  .notes-area {
+    display: none;
+    padding: 0 16px 14px;
+  }
+  .task.note-open .notes-area { display: block; }
+  .notes-textarea {
+    width: 100%;
+    background: var(--cream);
+    border: 1.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    resize: none;
+    min-height: 80px;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.5;
+  }
+  .notes-textarea:focus { border-color: var(--terracotta); }
+  .notes-textarea::placeholder { color: var(--muted); }
+
+  /* ── TEAMWORK SECTION ── */
+  .teamwork-section {
+    background: linear-gradient(135deg, #c4704a 0%, #9b5a38 100%);
+    border-radius: 20px;
+    padding: 28px 20px;
+    margin: 8px 0 28px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .teamwork-section::before {
+    content: '🌿';
+    position: absolute;
+    font-size: 80px;
+    opacity: 0.1;
+    top: -10px; right: -10px;
+  }
+  .teamwork-title {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 6px;
+    font-style: italic;
+  }
+  .teamwork-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .quiz-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    color: var(--terracotta);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    padding: 14px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .quiz-btn:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+  .quiz-btn-icon { font-size: 20px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    max-width: 100%;
+    padding: 16px 16px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1.5px solid var(--border);
+  }
+  .last-saved {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .reset-btn {
+    background: none;
+    border: 1.5px solid var(--border2);
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:active { border-color: var(--dusty-rose); color: var(--dusty-rose); }
+
+  /* Pop animation */
+  @keyframes pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+  .just-checked { animation: pop 0.3s ease; }
+
+  /* Completion message */
+  .all-done-banner {
+    display: none;
+    text-align: center;
+    background: var(--sage-light);
+    border: 2px solid rgba(107,143,113,0.4);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .all-done-banner.show { display: block; }
+  .all-done-banner h2 {
+    font-family: 'Lora', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--sage-dark);
+    margin-bottom: 6px;
+  }
+  .all-done-banner p { font-size: 15px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-flowers">🌸🌿</div>
+  <div class="header-tag">Team Tracker</div>
+  <h1>Debbie's Medicare<br>Launch Journey</h1>
+  <div class="header-sub">Priscilla is building with you every step of the way. Check off each milestone together. 💛</div>
+  <div class="progress-wrap">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+  <div class="progress-label"><span id="done-count">0</span> of <span id="total-count">0</span> steps complete</div>
+</div>
+
+<!-- AEP COUNTDOWN -->
+<div class="aep-banner">
+  <div class="aep-emoji">📅</div>
+  <div class="aep-text">
+    <strong>AEP Opens October 15, 2026</strong>
+    <span>The big Medicare enrollment window. Be ready before this date!</span>
+  </div>
+  <div class="aep-count">
+    <span class="aep-num" id="aep-days">—</span>
+    <span class="aep-days-word">days</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- WHO LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#3b6bc4"></div> Debbie's task</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7b4fbf"></div> Priscilla builds</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#c9963a"></div> Together</div>
+  </div>
+
+  <!-- Phases rendered by JS -->
+  <div id="phases"></div>
+
+  <!-- ALL DONE -->
+  <div class="all-done-banner" id="all-done">
+    <h2>🎉 AEP Ready, Debbie!</h2>
+    <p>Every step is complete. You are fully credentialed and your lead engine is running. Time to help some seniors! 🌟</p>
+  </div>
+
+  <!-- TEAMWORK / QUIZ LINK -->
+  <div class="teamwork-section">
+    <div class="teamwork-title">Keep Studying While You Go!</div>
+    <div class="teamwork-sub">Head over to Debbie's Medicare Exam Prep Quiz — Priscilla built it just for you. Practice questions, role-play scenarios, and ethics prep — all in one place.</div>
+    <a href="https://evyescapes.github.io/PriscillaVarelaQuizHelp/" class="quiz-btn" target="_blank">
+      <span class="quiz-btn-icon">📚</span>
+      Open Medicare Quiz
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="last-saved">Saved: <span id="last-saved">not yet</span></div>
+    <button class="reset-btn" onclick="confirmReset()">↺ Reset all</button>
+  </div>
+
+</div>
+
+<script>
+const PHASES = [
+  {
+    id: 'p1',
+    icon: '📖',
+    title: 'Ethics & License Exam',
+    sub: 'Week 1–2',
+    color: '#6b8f71',
+    tasks: [
+      {
+        id: 't1',
+        title: 'Buy the 12-Hour Ethics + Code Course',
+        desc: 'ExamFX bundled course is recommended — it includes the Code & Ethics requirement AND exam prep in one purchase. Shop at examfx.com.',
+        tags: ['debbie','cost'],
+        cost: '~$135–$199'
+      },
+      {
+        id: 't2',
+        title: 'Complete all 12 hours online',
+        desc: 'California tracks every minute you spend inside the course. You can\'t rush it. Aim to finish within 3 days — don\'t let it stretch to weeks!',
+        tags: ['debbie','warning'],
+        warn: '⚠️ Do NOT start and then pause for weeks — stay in motion!'
+      },
+      {
+        id: 't3',
+        title: 'Schedule the state exam with PSI',
+        desc: 'The Accident & Health exam is 75 questions in 90 minutes. You need 60% to pass. Schedule at least one week ahead. This test is in-person only.',
+        tags: ['debbie']
+      },
+      {
+        id: 't4',
+        title: 'Pass the California A&H Exam! 🎉',
+        desc: 'Bring your ID and course certificate. You get your result right away. If you don\'t pass the first time, it costs $55 to retake — so study well!',
+        tags: ['debbie','warning'],
+        warn: '⚠️ First-time pass rate matters — do not rush to test unprepared'
+      }
+    ]
+  },
+  {
+    id: 'p2',
+    icon: '📋',
+    title: 'Fingerprints & Official License',
+    sub: 'Week 2–3',
+    color: '#c9963a',
+    tasks: [
+      {
+        id: 't5',
+        title: 'Get fingerprinted at a PSI site',
+        desc: 'This is required for your background check. Cost is $68.95. It must be done after you file your license application.',
+        tags: ['debbie','cost'],
+        cost: '$68.95'
+      },
+      {
+        id: 't6',
+        title: 'Submit license application online',
+        desc: 'Apply through Sircon.com or NIPR.com. This is how you get your National Producer Number (NPN) — your unique license ID you\'ll use forever.',
+        tags: ['debbie']
+      },
+      {
+        id: 't7',
+        title: 'Receive your CA License + NPN number',
+        desc: 'Download it, save it, and write down your NPN number. CDI usually approves within a few business days after fingerprints clear.',
+        tags: ['debbie']
+      }
+    ]
+  },
+  {
+    id: 'p3',
+    icon: '🏥',
+    title: 'Medicare Certifications',
+    sub: 'Week 3–4',
+    color: '#5b7fc4',
+    tasks: [
+      {
+        id: 't8',
+        title: 'Complete AHIP Certification',
+        desc: 'This is the federal Medicare certification every carrier requires before you can sell Medicare Advantage or Part D plans. Online course + exam. Must be renewed every year.',
+        tags: ['debbie','cost','warning'],
+        cost: '~$175',
+        warn: '⚠️ This is non-negotiable — no AHIP means no Medicare sales, period'
+      },
+      {
+        id: 't9',
+        title: 'Choose and sign up with an FMO',
+        desc: 'A Field Marketing Organization (like Ritter Insurance Marketing or NCC) helps you get appointed with multiple carriers — at no cost to you. Priscilla will help research the best one.',
+        tags: ['both']
+      },
+      {
+        id: 't10',
+        title: 'Complete carrier product trainings',
+        desc: 'Each insurance company (Humana, UnitedHealthcare, Aetna, etc.) has its own free online training you must finish before selling their plans. Budget 1–3 hours per carrier.',
+        tags: ['debbie','warning'],
+        warn: '⚠️ Must be done BEFORE you can submit any application to that carrier'
+      },
+      {
+        id: 't11',
+        title: 'Receive writing numbers from carriers',
+        desc: 'This is your final green light — the writing number is proof you are approved to sell. Contracting can take 1–3 weeks, so start this process early!',
+        tags: ['debbie']
+      }
+    ]
+  },
+  {
+    id: 'p4',
+    icon: '✨',
+    title: 'Priscilla Builds the Lead Engine',
+    sub: 'Running in parallel',
+    color: '#9b6bc4',
+    tasks: [
+      {
+        id: 't12',
+        title: 'Set up Debbie\'s Facebook business page',
+        desc: 'Targeting seniors in the Brea, CA area turning 65. Page name, photo, about section, and contact info all set up and ready before the first post.',
+        tags: ['priscilla']
+      },
+      {
+        id: 't13',
+        title: 'Create 2 weeks of Medicare education content',
+        desc: 'Using AI to write warm, helpful posts — what is Medicare, Part A vs B, common mistakes people make. Build trust with the audience before ever mentioning selling.',
+        tags: ['priscilla']
+      },
+      {
+        id: 't14',
+        title: 'Build a simple lead capture system',
+        desc: 'When someone wants to learn more — where do they go? Set up a Facebook form or Messenger so interested seniors can reach Debbie easily.',
+        tags: ['both']
+      },
+      {
+        id: 't15',
+        title: 'Build Debbie\'s objection-handling script',
+        desc: '"I already have coverage." "My doctor isn\'t in that network." "I need to think about it." Priscilla creates a ready-to-use response playbook for every call.',
+        tags: ['priscilla']
+      }
+    ]
+  },
+  {
+    id: 'p5',
+    icon: '🌟',
+    title: 'First Sale & AEP Preparation',
+    sub: 'Before October 15',
+    color: '#c4704a',
+    tasks: [
+      {
+        id: 't16',
+        title: 'Do a practice enrollment (test run)',
+        desc: 'Before AEP season, walk through a full enrollment application with a willing friend or family member. Know the process cold before the busy season starts.',
+        tags: ['debbie']
+      },
+      {
+        id: 't17',
+        title: 'Build a warm contact list of Medicare-eligible people',
+        desc: 'Anyone 65+ in Debbie\'s personal network — family, neighbors, church, community. This is the first pipeline before any paid leads.',
+        tags: ['both']
+      },
+      {
+        id: 't18',
+        title: 'Review all content for CMS compliance',
+        desc: 'Medicare has strict federal marketing rules. Before anything goes live, check that no posts make prohibited claims or mention specific plan benefits without proper disclaimers.',
+        tags: ['both','warning'],
+        warn: '⚠️ Federal compliance — review every post before publishing'
+      },
+      {
+        id: 't19',
+        title: '🌟 AEP READY — Fully credentialed by October 15!',
+        desc: 'License ✓  AHIP ✓  Carrier writing numbers ✓  Facebook page live ✓  Content calendar running ✓  Warm lead list ready ✓  — Debbie is open for business!',
+        tags: ['both']
+      }
+    ]
+  }
+];
+
+let state = {};
+
+function loadState() {
+  try { state = JSON.parse(localStorage.getItem('debbie_warm_v1') || '{}'); }
+  catch(e) { state = {}; }
+}
+
+function saveState() {
+  localStorage.setItem('debbie_warm_v1', JSON.stringify(state));
+  const t = new Date();
+  const s = t.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  document.getElementById('last-saved').textContent = s;
+}
+
+function toggleTask(id) {
+  if (!state[id]) state[id] = {};
+  state[id].done = !state[id].done;
+  if (state[id].done) {
+    state[id].dateDone = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  } else {
+    delete state[id].dateDone;
+  }
+  saveState();
+  renderAll();
+  const el = document.querySelector(`[data-id="${id}"]`);
+  if (el) { el.classList.add('just-checked'); setTimeout(()=>el.classList.remove('just-checked'),300); }
+}
+
+function toggleNote(id, e) {
+  e.stopPropagation();
+  if (!state[id]) state[id] = {};
+  state[id].noteOpen = !state[id].noteOpen;
+  saveState();
+  renderAll();
+}
+
+function saveNote(id, val) {
+  if (!state[id]) state[id] = {};
+  state[id].note = val;
+  saveState();
+}
+
+function confirmReset() {
+  if (confirm('Reset all progress? This cannot be undone.')) { state={}; saveState(); renderAll(); }
+}
+
+function calcAEP() {
+  const diff = Math.ceil((new Date('2026-10-15') - new Date()) / 86400000);
+  document.getElementById('aep-days').textContent = diff > 0 ? diff : '🔔';
+}
+
+function renderAll() {
+  let total=0, done=0;
+  const allTasks = PHASES.flatMap(p=>p.tasks);
+  total = allTasks.length;
+  done = allTasks.filter(t=>state[t.id]?.done).length;
+
+  // Header
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('progress-fill').style.width = pct+'%';
+  document.getElementById('done-count').textContent = done;
+  document.getElementById('total-count').textContent = total;
+
+  // All done
+  document.getElementById('all-done').classList.toggle('show', done===total && total>0);
+
+  // Phases
+  document.getElementById('phases').innerHTML = PHASES.map(phase => {
+    const pDone = phase.tasks.filter(t=>state[t.id]?.done).length;
+    const pPct = phase.tasks.length ? Math.round(pDone/phase.tasks.length*100) : 0;
+
+    const tasksHtml = phase.tasks.map(task => {
+      const s = state[task.id] || {};
+      const isDone = !!s.done;
+      const noteOpen = !!s.noteOpen;
+      const note = s.note || '';
+
+      const tagsHtml = (task.tags||[]).map(tag => {
+        if (tag==='cost') return `<span class="tag tag-cost">💰 ${task.cost||'Cost'}</span>`;
+        if (tag==='warning') return `<span class="tag tag-warning">⚠️ Important</span>`;
+        if (tag==='debbie') return `<span class="tag tag-debbie">Debbie</span>`;
+        if (tag==='priscilla') return `<span class="tag tag-priscilla">Priscilla</span>`;
+        if (tag==='both') return `<span class="tag tag-both">Together 💛</span>`;
+        return '';
+      }).join('');
+
+      return `
+      <div class="task ${isDone?'done':''} ${noteOpen?'note-open':''}" data-id="${task.id}">
+        <div class="task-inner" onclick="toggleTask('${task.id}')">
+          <div class="task-check">${isDone?'✓':''}</div>
+          <div class="task-content">
+            <div class="task-title">${task.title}</div>
+            <div class="task-desc">${task.desc}</div>
+            ${task.warn ? `<div class="task-warn">${task.warn}</div>` : ''}
+            <div class="task-tags">${tagsHtml}</div>
+            ${isDone && s.dateDone ? `<div class="task-date">✅ Completed ${s.dateDone}</div>` : ''}
+            <button class="notes-toggle" onclick="toggleNote('${task.id}', event)">
+              <span>${noteOpen?'▲':'▼'}</span> ${noteOpen ? 'Hide note' : 'Add a note'}
+            </button>
+          </div>
+        </div>
+        <div class="notes-area">
+          <textarea
+            class="notes-textarea"
+            placeholder="Write anything here — dates, contacts, login details, reminders…"
+            onclick="event.stopPropagation()"
+            oninput="saveNote('${task.id}', this.value)"
+          >${note}</textarea>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `
+    <div class="phase">
+      <div class="phase-header" style="background:${phase.color}">
+        <div class="phase-icon">${phase.icon}</div>
+        <div class="phase-title-wrap">
+          <div class="phase-title">${phase.title}</div>
+          <div class="phase-sub">${phase.sub}</div>
+        </div>
+        <div class="phase-count">${pDone}/${phase.tasks.length}</div>
+      </div>
+      <div class="phase-mini-bar">
+        <div class="phase-mini-fill" style="width:${pPct}%; background:${phase.color};"></div>
+      </div>
+      ${tasksHtml}
+    </div>`;
+  }).join('');
+}
+
+loadState();
+calcAEP();
+renderAll();
+setInterval(calcAEP, 60000);
+</script>
+</body>
+</html>
