@@ -90,6 +90,36 @@
     overflow: hidden;
   }
 
+  .live-timer-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: #0f1f3d;
+    color: #e8b86d;
+    font-family: 'Fraunces', serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+
+  .pace-badge-pill {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border-radius: 100px;
+    margin: 0.4rem 0 0.75rem;
+  }
+  .pace-fast { background: #eaf4ef; color: #2d6a4f; }
+  .pace-good { background: #fdf3e3; color: #a06b10; }
+  .pace-slow { background: #faeaea; color: #8b2020; }
+
   .progress-fill {
     height: 100%;
     background: var(--teal);
@@ -347,8 +377,10 @@
 
     <div class="home-tabs">
       <button class="home-tab active" id="tab-quiz" onclick="showHomeTab('quiz')">📝 Exam Quiz</button>
-      <button class="home-tab" id="tab-roleplay" onclick="showHomeTab('roleplay')">🎭 Role-Play Practice</button>
-      <button class="home-tab" id="tab-tracker" onclick="showHomeTab('tracker')">📋 Our Tracker</button>
+      <button class="home-tab" id="tab-roleplay" onclick="showHomeTab('roleplay')">🎭 Role-Play</button>
+      <button class="home-tab" id="tab-unit1a" onclick="showHomeTab('unit1a')">📜 CA Code #1</button>
+      <button class="home-tab" id="tab-unit1b" onclick="showHomeTab('unit1b')">📜 CA Code #2</button>
+      <button class="home-tab" id="tab-tracker" onclick="showHomeTab('tracker')">📋 Tracker</button>
     </div>
 
     <div id="home-quiz-panel">
@@ -447,11 +479,88 @@
         </div>
       </div>
     </div>
+
+    <!-- UNIT 1 QUIZ #1 PANEL -->
+    <div id="home-unit1a-panel" class="hidden">
+      <div class="card">
+        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">What's covered</p>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-dot" style="background:#0f1f3d"></div>The Insurance Commissioner</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#c8963e"></div>Types of Insurers</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#2d6a4f"></div>Unfair Trade Practices</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#8b2020"></div>Insurance Fraud</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Privacy Rules (GLB + CA)</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>Insurable Interest &amp; Contracts</div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">20 exam-style questions · Timed · California Insurance Code</p>
+      <button class="start-btn" style="background:#0f1f3d;" onclick="startUnit1Quiz('a')">Start CA Code Quiz #1 →</button>
+    </div>
+
+    <!-- UNIT 1 QUIZ #2 PANEL -->
+    <div id="home-unit1b-panel" class="hidden">
+      <div class="card">
+        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">What's covered</p>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-dot" style="background:#0f1f3d"></div>Certificate of Authority</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#c8963e"></div>Licensing Requirements</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#2d6a4f"></div>Conservation &amp; Seizure</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#8b2020"></div>Discrimination Rules</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Warranties &amp; Rescission</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>Surplus Lines &amp; Recordkeeping</div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">20 exam-style questions · Timed · California Insurance Code</p>
+      <button class="start-btn" style="background:#0f1f3d;" onclick="startUnit1Quiz('b')">Start CA Code Quiz #2 →</button>
+    </div>
   </div>
 
-  <!-- QUIZ SCREEN -->
+  <!-- UNIT 1 QUIZ SCREEN -->
+  <div id="unit1-quiz-screen" class="hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+      <div class="progress-bar" style="flex:1;margin-bottom:0;margin-right:1rem;"><div class="progress-fill" id="u1-progress-fill"></div></div>
+      <div class="live-timer-pill" id="u1-timer-pill">⏱ 0:00</div>
+    </div>
+    <div class="progress-label">
+      <span id="u1-progress-text">Question 1 of 20</span>
+      <span class="score-pill" id="u1-score-display">Score: 0</span>
+    </div>
+    <div class="card" id="u1-question-card">
+      <div id="u1-topic-tag" class="category-tag tag-basics"></div>
+      <div class="question-text" id="u1-question-text"></div>
+      <div class="options" id="u1-options-container"></div>
+      <div class="feedback" id="u1-feedback"></div>
+    </div>
+    <button class="next-btn" id="u1-next-btn" onclick="u1NextQuestion()">Next Question →</button>
+  </div>
+
+  <!-- UNIT 1 RESULTS SCREEN -->
+  <div id="unit1-results-screen" class="hidden results">
+    <div class="header">
+      <div id="u1-results-icon" class="results-icon"></div>
+      <h2 id="u1-results-title"></h2>
+      <div class="score-big" id="u1-score-big"></div>
+      <div style="display:inline-flex;flex-direction:column;align-items:center;background:#0f1f3d;color:white;border-radius:12px;padding:1rem 2rem;margin:1rem 0;gap:0.2rem;">
+        <span style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:#e8b86d;font-weight:300;">⏱ Your Time</span>
+        <span style="font-family:'Fraunces',serif;font-size:2.6rem;font-weight:700;color:white;line-height:1;" id="u1-final-time">—</span>
+        <span style="font-size:0.78rem;color:#8898bb;font-style:italic;" id="u1-time-sub"></span>
+      </div>
+      <span class="pace-badge-pill" id="u1-pace-badge"></span>
+      <p id="u1-results-message"></p>
+    </div>
+    <div class="results-breakdown card">
+      <h3>Question by question</h3>
+      <div id="u1-breakdown-list"></div>
+    </div>
+    <button class="restart-btn" onclick="u1RestartQuiz()">Try Again — Beat Your Time →</button>
+    <br><br>
+    <button class="restart-btn" style="background:var(--paper);color:#0f1f3d;border:1.5px solid #0f1f3d;margin-top:0.5rem;" onclick="goHome()">← Back to Home</button>
+  </div>
   <div id="quiz-screen" class="hidden">
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+      <div class="progress-bar" style="flex:1;margin-bottom:0;margin-right:1rem;"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="live-timer-pill" id="main-timer-pill">⏱ 0:00</div>
+    </div>
     <div class="progress-label">
       <span id="progress-text">Question 1 of 10</span>
       <span class="score-pill" id="score-display">Score: 0</span>
@@ -471,13 +580,19 @@
       <div id="results-icon" class="results-icon"></div>
       <h2 id="results-title"></h2>
       <div class="score-big" id="score-big"></div>
+      <div style="display:inline-flex;flex-direction:column;align-items:center;background:#0f1f3d;color:white;border-radius:12px;padding:1rem 2rem;margin:0.75rem 0;gap:0.2rem;">
+        <span style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:#e8b86d;font-weight:300;">⏱ Your Time</span>
+        <span style="font-family:'Fraunces',serif;font-size:2.6rem;font-weight:700;color:white;line-height:1;" id="main-final-time">—</span>
+        <span style="font-size:0.78rem;color:#8898bb;font-style:italic;" id="main-time-sub"></span>
+      </div>
+      <span class="pace-badge-pill" id="main-pace-badge"></span>
       <p id="results-message"></p>
     </div>
     <div class="results-breakdown card">
       <h3>Question by question</h3>
       <div id="breakdown-list"></div>
     </div>
-    <button class="restart-btn" onclick="restartQuiz()">Try Again →</button>
+    <button class="restart-btn" onclick="restartQuiz()">Try Again — Beat Your Time →</button>
   </div>
 
   <!-- ROLE-PLAY SCREEN -->
@@ -691,6 +806,37 @@ function shuffle(arr) {
   return a;
 }
 
+// ── TIMER ──────────────────────────────────────────
+let quizTimer = null;
+let quizElapsed = 0;
+
+function startQuizTimer(pillId) {
+  stopQuizTimer();
+  quizElapsed = 0;
+  quizTimer = setInterval(() => {
+    quizElapsed++;
+    const el = document.getElementById(pillId);
+    if (el) el.textContent = '⏱ ' + formatQuizTime(quizElapsed);
+  }, 1000);
+}
+
+function stopQuizTimer() {
+  if (quizTimer) { clearInterval(quizTimer); quizTimer = null; }
+}
+
+function formatQuizTime(secs) {
+  const m = Math.floor(secs / 60);
+  const s = secs % 60;
+  return m + ':' + String(s).padStart(2, '0');
+}
+
+function getPaceInfo(secs, numQ) {
+  const secPerQ = secs / numQ;
+  if (secPerQ < 54) return { text: '⚡ Excellent Pace', cls: 'pace-fast', sub: 'Well ahead of exam timing — great speed!' };
+  if (secPerQ < 84) return { text: '✅ Good Pace', cls: 'pace-good', sub: 'On track with exam timing — keep practicing!' };
+  return { text: '⏰ Work on Speed', cls: 'pace-slow', sub: 'The real exam is timed — aim to pick up the pace!' };
+}
+
 function startQuiz() {
   let pool;
   if (selectedType === 'ethics') pool = shuffle(ETHICS_QUESTIONS);
@@ -701,6 +847,7 @@ function startQuiz() {
   document.getElementById('start-screen').classList.add('hidden');
   document.getElementById('results-screen').classList.add('hidden');
   document.getElementById('quiz-screen').classList.remove('hidden');
+  startQuizTimer('main-timer-pill');
   loadQuestion();
 }
 
@@ -784,6 +931,7 @@ function nextQuestion() {
 }
 
 function showResults() {
+  stopQuizTimer();
   document.getElementById('quiz-screen').classList.add('hidden');
   document.getElementById('results-screen').classList.remove('hidden');
   const pct = Math.round((score / questions.length) * 100);
@@ -796,6 +944,12 @@ function showResults() {
   document.getElementById('results-title').textContent = title;
   document.getElementById('score-big').textContent = `${score}/${questions.length}`;
   document.getElementById('results-message').textContent = message;
+  // Timer display
+  document.getElementById('main-final-time').textContent = formatQuizTime(quizElapsed);
+  const pace = getPaceInfo(quizElapsed, questions.length);
+  document.getElementById('main-time-sub').textContent = pace.sub;
+  const pb = document.getElementById('main-pace-badge');
+  pb.textContent = pace.text; pb.className = 'pace-badge-pill ' + pace.cls;
   const list = document.getElementById('breakdown-list');
   list.innerHTML = '';
   answered.forEach((a, i) => {
@@ -812,12 +966,11 @@ function restartQuiz() {
 }
 
 function showHomeTab(tab) {
-  document.getElementById('tab-quiz').classList.toggle('active', tab === 'quiz');
-  document.getElementById('tab-roleplay').classList.toggle('active', tab === 'roleplay');
-  document.getElementById('tab-tracker').classList.toggle('active', tab === 'tracker');
-  document.getElementById('home-quiz-panel').classList.toggle('hidden', tab !== 'quiz');
-  document.getElementById('home-roleplay-panel').classList.toggle('hidden', tab !== 'roleplay');
-  document.getElementById('home-tracker-panel').classList.toggle('hidden', tab !== 'tracker');
+  ['quiz','roleplay','unit1a','unit1b','tracker'].forEach(t => {
+    document.getElementById('tab-' + t).classList.toggle('active', tab === t);
+    const panel = document.getElementById('home-' + t + '-panel');
+    if (panel) panel.classList.toggle('hidden', tab !== t);
+  });
   if (tab === 'tracker') loadTrackerPreview();
 }
 
@@ -899,11 +1052,169 @@ function restartRolePlay() {
 }
 
 function goHome() {
+  stopQuizTimer();
   document.getElementById('roleplay-done-screen').classList.add('hidden');
   document.getElementById('roleplay-screen').classList.add('hidden');
   document.getElementById('results-screen').classList.add('hidden');
+  document.getElementById('unit1-quiz-screen').classList.add('hidden');
+  document.getElementById('unit1-results-screen').classList.add('hidden');
   document.getElementById('start-screen').classList.remove('hidden');
   showHomeTab('quiz');
+}
+
+// ── UNIT 1 QUIZ DATA ──────────────────────────────
+const UNIT1A_QUESTIONS = [
+  { topic:"The Insurance Commissioner", q:"All of the following statements about the California Commissioner of Insurance are correct EXCEPT:", options:["The Commissioner can serve no more than two 4-year terms","The Commissioner can institute insurance rules and regulations","The Commissioner can serve no more than four 4-year terms","The Commissioner can investigate complaints"], answer:2, explain:"The Commissioner is elected to a 4-year term and may NOT hold the position for more than TWO 4-year terms — not four. This is a classic trick question on the exam." },
+  { topic:"Insurance Code Language", q:"Under the California Insurance Code, which of the following is TRUE about the words 'shall' and 'may'?", options:["'Shall' is permissive and 'may' is mandatory","'Shall' is mandatory and 'may' is permissive","Both 'shall' and 'may' are mandatory","Both 'shall' and 'may' are permissive"], answer:1, explain:"'Shall' means you MUST do it — it is mandatory. 'May' means you are allowed to but don't have to — it is permissive. This exact distinction appears on the exam." },
+  { topic:"Licensing Penalties", q:"A person who transacts insurance business in California WITHOUT a license may face which of the following penalties?", options:["A fine up to $100,000 or imprisonment up to one year","A fine up to $50,000 or imprisonment up to one year, or both","A fine up to $25,000 only","Permanent ban from obtaining a license"], answer:1, explain:"No license = fine up to $50,000 and/or up to 1 year jail. Note: no certificate of authority = fine up to $100,000. Don't confuse the two amounts — the exam loves this distinction." },
+  { topic:"Types of Insurers", q:"In a mutual insurance company, who are considered the owners?", options:["Stockholders who own shares","The Board of Directors","The policyholders","The Insurance Commissioner"], answer:2, explain:"In a MUTUAL company, policyholders own the company. In a STOCK company, stockholders own it. Mutual = participating (dividends go back to policyholders). Stock = non-participating." },
+  { topic:"Types of Insurers", q:"Which of the following best describes a 'domestic' insurer in California?", options:["A company licensed in California but incorporated in another state","A company incorporated, chartered, and formed under the laws of California","Any company doing business in the United States","A company incorporated outside the United States"], answer:1, explain:"Domestic = formed under California laws. Foreign = formed under another STATE's laws but licensed in CA. Alien = formed in another COUNTRY. Know all three." },
+  { topic:"Privacy Rules", q:"Under the Gramm-Leach-Bliley Act, what is 'pretext calling'?", options:["Calling a client before their policy expires","Obtaining customer information through false representations","Calling a claimant to settle a claim","A cold-call sales technique used by agents"], answer:1, explain:"Pretext calling = obtaining info under false pretenses (pretending to be someone you're not). It is CRIMINALIZED under Gramm-Leach-Bliley and can result in up to 5 years in prison." },
+  { topic:"Privacy — California Rules", q:"Under California's Financial Information Privacy Act, what does California require INSTEAD of the federal 'opt-out' rule?", options:["A written notice mailed annually","An opt-IN — affirmative consumer consent before sharing data","A 30-day waiting period before sharing","Nothing additional beyond federal law"], answer:1, explain:"California is STRICTER than the federal law. Federally it's opt-OUT (you can say no). California requires opt-IN — the financial institution must get your YES before sharing your data with third parties." },
+  { topic:"Insolvency", q:"Which of the following best defines 'insolvency' under California Insurance Code?", options:["When an insurer refuses to pay a claim","When an insurer loses its certificate of authority","Any impairment of minimum paid-in capital required, or inability to meet financial obligations when due","When an insurer's license expires"], answer:2, explain:"Insolvency = impaired capital OR can't pay debts when due. This matters because if an insurer becomes insolvent, the California Insurance Guaranty Association steps in to protect policyholders." },
+  { topic:"Unfair Trade Practices", q:"An agent persuades a client to cancel their current policy and replace it with a new one by making misleading comparisons about the policies. This is called:", options:["Rebating","Misrepresentation","Twisting","Churning"], answer:2, explain:"TWISTING = using misrepresentation or misleading comparisons to induce someone to lapse, change, or surrender their policy. Penalties include up to $25,000 fine, up to 1 year in jail, and/or license suspension up to 3 years." },
+  { topic:"Unfair Claims Practices", q:"Under California law, after receiving proof of claim, an insurer must accept or deny the claim within how many days?", options:["15 days","21 days","30 days","40 days"], answer:3, explain:"40 days to accept or deny. Then if accepted, they must PAY within 30 days. If they need more time, they must notify the claimant in writing every 30 days. Know these numbers — they are tested." },
+  { topic:"Unfair Claims Practices", q:"After a Department of Insurance inquiry about a claim, a licensee must furnish a complete written response within:", options:["10 days","15 days","21 days","45 days"], answer:2, explain:"21 days — this is the response time for DOI inquiries. Don't confuse it with the 40-day claim acceptance window or the 30-day payment window." },
+  { topic:"Insurance Fraud", q:"Anyone who makes false or fraudulent statements related to an insurance claim may be subject to which of the following penalties?", options:["A fine up to $75,000 or double the fraud value, whichever is LESS","A fine up to $150,000 or double the fraud value, whichever is GREATER","A fine of exactly $10,000","Community service only"], answer:1, explain:"$150,000 OR double the fraud — whichever is GREATER. Plus possible imprisonment 1 year (county) or 2, 3, or 5 years (state prison). The 'greater' part is the trick — the exam tests this." },
+  { topic:"Insurable Interest", q:"In a LIFE insurance policy, when must insurable interest exist?", options:["At the time of the loss only","At the time the policy takes effect only","At both the time of application and the time of loss","At the time the policy takes effect AND at the time of loss"], answer:1, explain:"For LIFE insurance — insurable interest must exist when the policy TAKES EFFECT, but NOT necessarily at the time of death. This is different from property insurance, where it must exist at BOTH the start AND at the time of loss." },
+  { topic:"Insurance Contracts", q:"Which of the following is NOT one of the six required elements of a California insurance contract?", options:["The parties between whom the contract is made","The risks insured against","The financial rating of the insurer","The period during which insurance is to continue"], answer:2, explain:"The financial rating of the insurer is NOT required in the policy. The six required elements are: parties, property/life insured, insured's interest, risks covered, period of coverage, and premium or basis for premium." },
+  { topic:"Concealment", q:"An applicant for life insurance knows they have a terminal illness but doesn't reveal it on the application. This is called:", options:["Twisting","Concealment — and entitles the insurer to rescind the policy","Representation — and is always legal","Warranty — and cannot affect the policy"], answer:1, explain:"This is CONCEALMENT — failing to communicate a material fact. Whether intentional or not, concealment entitles the injured party to RESCIND the contract (void it from the beginning, as if it never existed)." },
+  { topic:"Privacy — HIPAA", q:"Under HIPAA, what type of information must health care providers and insurers protect?", options:["Only written medical records","Protected health information (PHI) — any health or medical information of insureds","Financial records only","Information shared only by telephone"], answer:1, explain:"HIPAA protects PHI — Protected Health Information. If it's inadvertently disclosed, providers must mitigate the harm. Insurers and producers handling applicants' health data have the same obligations." },
+  { topic:"Discrimination", q:"Under California law, an insurer may NOT refuse to insure someone on the basis of which of the following?", options:["A prior criminal history","Being a victim of domestic violence","A history of frequent claims","Living in a high-risk zip code"], answer:1, explain:"Being a victim of domestic violence is a PROTECTED category under California law. An insurer cannot deny, cancel, restrict, or charge a different rate based on an applicant being, having been, or potentially being a victim of domestic violence." },
+  { topic:"Insurance Fraud", q:"Every insurer admitted to do business in California must maintain:", options:["A separate legal team for all fraud cases","A unit or division to investigate possible fraudulent claims","A $1 million fraud reserve fund","A partnership with the FBI"], answer:1, explain:"California law requires EVERY admitted insurer to maintain an internal fraud investigation unit. This is mandatory — not optional. The Bureau of Fraudulent Claims within the Insurance Department oversees enforcement." },
+  { topic:"Surplus Lines", q:"A nonadmitted insurer in California is one that:", options:["Has been licensed but temporarily suspended","Has failed to comply with requirements for transacting insurance in California","Only writes policies in other states","Is currently under investigation by the CDI"], answer:1, explain:"Nonadmitted = failed or unable to comply with California's licensing requirements. Important: nonadmitted insurers do NOT participate in California's guaranty funds — meaning if they go insolvent, policyholders have NO guarantee fund protection." },
+  { topic:"Unfair Trade Practices", q:"A person who willfully engages in an unfair or deceptive act or practice in insurance may be fined up to:", options:["$5,000 per act if not willful; $10,000 per act if willful","$1,000 per act regardless","$50,000 per act for all violations","$25,000 per act for first offense"], answer:0, explain:"The civil penalty structure is: up to $5,000 per act (non-willful) OR up to $10,000 per act (willful). Separate and additional to any criminal penalties. This exact dollar amount is a common exam question." }
+];
+
+const UNIT1B_QUESTIONS = [
+  { topic:"The Insurance Commissioner", q:"The Insurance Commissioner of California is:", options:["Appointed by the Governor with no term limit","Elected by the people to a 4-year term, max two terms","Appointed by the State Legislature for a 6-year term","Elected by insurance company executives annually"], answer:1, explain:"The Commissioner is ELECTED by California voters — not appointed. Four-year term, maximum of two terms. If a vacancy occurs mid-term, the Governor may appoint a replacement (with legislative confirmation). This is a frequent exam question." },
+  { topic:"Certificate of Authority", q:"How long does the Commissioner have to issue or deny an application for a Certificate of Authority?", options:["90 calendar days","120 calendar days","180 calendar days","365 calendar days"], answer:2, explain:"180 calendar days from the date of application. This specific number comes up on the exam. The Commissioner must act — either issue or deny — within that window." },
+  { topic:"Types of Insurers", q:"A reciprocal insurer is best described as:", options:["A company owned by stockholders who share profits","An unincorporated group of people providing insurance for one another through individual indemnity agreements","A government-run insurance pool for high-risk applicants","A nonprofit hospital association that offers group health coverage"], answer:1, explain:"Reciprocal insurers are UNINCORPORATED groups where each member (subscriber) insures the others. They are managed by an attorney-in-fact. Each subscriber has a separate account. Know this — it is different from all other company types." },
+  { topic:"Types of Insurers", q:"A 'foreign' insurance company doing business in California is one that is:", options:["Incorporated in another country","Incorporated in another U.S. state but licensed in California","Incorporated in California but doing business in other states","Any company not admitted in California"], answer:1, explain:"Foreign = another U.S. STATE. Alien = another COUNTRY. Domestic = California. This three-way distinction is almost always on the exam. Do not confuse 'foreign' with international." },
+  { topic:"Licensing Requirements", q:"Transacting insurance in California without a Certificate of Authority carries a maximum fine of:", options:["$25,000","$50,000","$100,000","$250,000"], answer:2, explain:"$100,000 for no Certificate of Authority. Compare: no LICENSE = up to $50,000. The CA distinction is tested heavily. Certificate of Authority = the company's permission to operate. License = the individual agent's permission." },
+  { topic:"Administrative Procedures", q:"Under the rulemaking process, how many days before a hearing must proposed regulatory changes be published in the California Regulatory Notice Register?", options:["15 days","30 days","45 days","60 days"], answer:2, explain:"45 days before hearing or adoption. A public hearing is OPTIONAL but can be requested by any interested party at least 15 days before the close of the written comment period. Both numbers are tested." },
+  { topic:"Conservation & Seizure", q:"Which of the following would allow the Commissioner to take summary seizure of an insurer WITHOUT a court order?", options:["The insurer has filed late financial statements","Irreparable loss or injury has occurred or may occur unless the Commissioner acts immediately","The insurer has received three consumer complaints in one month","The insurer's CEO has resigned unexpectedly"], answer:1, explain:"Summary seizure = the Commissioner can act IMMEDIATELY without notice or court order when irreparable harm exists. For normal conservation, a court application is required. 'Summary' means urgent/without prior notice." },
+  { topic:"Privacy — Gramm-Leach-Bliley", q:"Under the Gramm-Leach-Bliley Act, how often must financial institutions disclose their privacy policies to customers?", options:["Once, at the time the relationship is established","Every two years","At establishment AND annually thereafter","Only when the privacy policy changes"], answer:2, explain:"Gramm-Leach-Bliley requires disclosure at the time the customer relationship is established AND on an annual basis. Both triggers matter — this is frequently tested." },
+  { topic:"Privacy — California", q:"Under the California Insurance Information and Privacy Protection Act, how long is a disclosure authorization valid for a life or health insurance application?", options:["12 months","24 months","30 months","36 months"], answer:2, explain:"For LIFE or HEALTH insurance: authorization is valid for 30 months. For PROPERTY or CASUALTY: only 12 months. Know both — the exam likes to swap these to trick you." },
+  { topic:"Unfair Trade Practices", q:"What is the penalty for a WILLFUL violation of a cease and desist order related to unfair trade practices?", options:["A fine up to $5,000","A fine up to $10,000","A fine up to $25,000","A fine up to $55,000"], answer:3, explain:"$55,000 for WILLFUL violation of a cease and desist order. Compare: initial unfair practice fine = up to $5,000 (non-willful) or $10,000 (willful). The $55,000 figure applies specifically when an ORDER is violated — the exam tests this escalation." },
+  { topic:"Discrimination", q:"An insurer who knowingly violates California's prohibition on discrimination based on sexual orientation is subject to a civil penalty of:", options:["$100 to $500","$500 to $1,000","$1,000 to $5,000","$5,000 to $10,000"], answer:2, explain:"Sexual orientation discrimination: $1,000 to $5,000 civil penalty as determined by the court (effective January 1, 2002). The range matters — know the floor AND ceiling." },
+  { topic:"Discrimination", q:"Under California law, an insurer MAY charge a different rate or limit coverage for a physically or mentally impaired person only when:", options:["The impairment is visible to others","Based on sound actuarial principles or related to actual and reasonable anticipated experience","The applicant has filed a claim within the past 5 years","The policy is a group policy, not individual"], answer:1, explain:"Physical or mental impairment cannot automatically trigger higher rates or denied coverage — UNLESS it is actuarially justified based on sound data and reasonable anticipated experience. This is the legal exception, and the exam tests it." },
+  { topic:"Insurable Interest", q:"For PROPERTY insurance, when must insurable interest exist?", options:["At the time the policy takes effect only","At the time of the loss only","At the time the policy takes effect AND at the time of the loss","Insurable interest is not required for property insurance"], answer:2, explain:"For PROPERTY insurance — insurable interest must exist BOTH when the policy takes effect AND at the time of the loss. Compare to LIFE insurance, where it only needs to exist at policy inception. This distinction is a major exam topic." },
+  { topic:"Insurance Contracts", q:"Which of the following accurately defines 'rescission' of an insurance contract?", options:["A temporary suspension of policy benefits","Termination of the contract from a future date forward","The contract is voided from the beginning, as if it never existed","A reduction in policy limits due to nonpayment"], answer:2, explain:"Rescission = the contract is terminated from the VERY BEGINNING — treated as if it never existed. This is triggered by material concealment or false representation. It is different from cancellation, which ends coverage going forward only." },
+  { topic:"Warranties", q:"Under California Insurance Code, when must an express warranty be contained?", options:["In a separate notarized document","In the policy itself, or in another signed instrument referred to in the policy","It may be stated verbally at the time of application","Only in the declarations page of the policy"], answer:1, explain:"An express warranty must be IN the policy itself OR in a separate SIGNED instrument that the policy REFERS TO and incorporates. A verbal warranty at application does not count as an express warranty." },
+  { topic:"Unfair Claims Practices", q:"An insurer that accepts a claim must pay it within how many days of acceptance?", options:["15 days","21 days","30 days","40 days"], answer:2, explain:"After ACCEPTING a claim, the insurer must PAY within 30 days. The sequence: 40 days to accept/deny → 30 days to pay after acceptance. If more time is needed before accepting, they must send written notice every 30 days. Three different 30/40 numbers — know each one's purpose." },
+  { topic:"Insurance Fraud", q:"The California Insurance Code requires every admitted insurer to report covered private passenger automobiles involved in theft and salvage total losses to:", options:["The California Highway Patrol directly","The National Automobile Theft Bureau or similar CDI-approved organization","The Department of Motor Vehicles","The Office of Administrative Law"], answer:1, explain:"Insurers must report theft and total loss vehicles to the National Automobile Theft Bureau (or a similar CDI-approved organization). This is part of California's mandatory fraud prevention infrastructure." },
+  { topic:"Surplus Lines", q:"Which of the following is TRUE about nonadmitted insurers in California?", options:["They have the same policyholder protections as admitted insurers","They must participate in the California Insurance Guaranty Association","They do not participate in guaranty funds — so policyholders have no guarantee fund protection if they become insolvent","They are illegal in California under any circumstances"], answer:2, explain:"Nonadmitted insurers (surplus lines) do NOT participate in California's insurance guaranty funds. If they go insolvent, there is NO safety net for policyholders. The surplus lines broker must inform applicants of this via a signed disclosure statement." },
+  { topic:"Recordkeeping", q:"How long must a fire and casualty agent keep detailed bank records such as account statements, deposit records, and canceled checks?", options:["18 months","2 years","3 years","5 years"], answer:3, explain:"Detailed bank records must be kept for at least FIVE YEARS at the principal office (or off premises after policy expiration or cancellation). The 18-month rule applies to informational transaction records. Know the difference." },
+  { topic:"Classes of Insurance", q:"Under California Insurance Code, which of the following is classified under the 'Disability' class of insurance?", options:["Workers' compensation and automobile insurance","Health, accidental death and dismemberment, Medicare supplement, long-term care, and disability income","Life insurance and fire insurance only","Surety bonds and credit insurance"], answer:1, explain:"The 'Disability' class in California covers: health, accidental death & dismemberment (AD&D), Medicare supplement, long-term care, and disability income. This grouping is tested — especially because Medicare supplement falls under Disability, not under Life." }
+];
+
+// ── UNIT 1 QUIZ STATE ──────────────────────────────
+let u1Questions = [];
+let u1Current = 0;
+let u1Score = 0;
+let u1Answered = [];
+
+function startUnit1Quiz(which) {
+  const pool = which === 'a' ? UNIT1A_QUESTIONS : UNIT1B_QUESTIONS;
+  u1Questions = pool;
+  u1Current = 0; u1Score = 0; u1Answered = [];
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('unit1-results-screen').classList.add('hidden');
+  document.getElementById('unit1-quiz-screen').classList.remove('hidden');
+  startQuizTimer('u1-timer-pill');
+  u1LoadQuestion();
+}
+
+function u1LoadQuestion() {
+  const q = u1Questions[u1Current];
+  const total = u1Questions.length;
+  document.getElementById('u1-progress-fill').style.width = ((u1Current / total) * 100) + '%';
+  document.getElementById('u1-progress-text').textContent = `Question ${u1Current + 1} of ${total}`;
+  document.getElementById('u1-score-display').textContent = `Score: ${u1Score}`;
+  document.getElementById('u1-topic-tag').textContent = q.topic;
+  document.getElementById('u1-topic-tag').className = 'category-tag tag-basics';
+  document.getElementById('u1-question-text').textContent = q.q;
+  const container = document.getElementById('u1-options-container');
+  container.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt, j) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${letters[j]}</span><span>${opt}</span>`;
+    btn.onclick = () => u1SelectAnswer(btn, j);
+    container.appendChild(btn);
+  });
+  const fb = document.getElementById('u1-feedback');
+  fb.className = 'feedback'; fb.innerHTML = '';
+  const nb = document.getElementById('u1-next-btn');
+  nb.classList.remove('visible');
+  nb.textContent = u1Current < u1Questions.length - 1 ? 'Next Question →' : 'See Results →';
+  document.getElementById('u1-question-card').style.animation = 'none';
+  setTimeout(() => document.getElementById('u1-question-card').style.animation = 'fadeUp 0.4s ease both', 10);
+}
+
+function u1SelectAnswer(btn, selectedIdx) {
+  const q = u1Questions[u1Current];
+  const allBtns = document.querySelectorAll('#u1-options-container .option');
+  allBtns.forEach(b => b.disabled = true);
+  const isCorrect = selectedIdx === q.answer;
+  const fb = document.getElementById('u1-feedback');
+  if (isCorrect) {
+    btn.classList.add('correct'); u1Score++;
+    u1Answered.push({ q: q.q, correct: true });
+    fb.className = 'feedback correct-fb';
+    fb.innerHTML = `<strong>Correct! ✓</strong><div class="explanation">${q.explain}</div>`;
+  } else {
+    btn.classList.add('wrong');
+    allBtns[q.answer].classList.add('reveal');
+    u1Answered.push({ q: q.q, correct: false });
+    fb.className = 'feedback wrong-fb';
+    fb.innerHTML = `<strong>Not quite!</strong><div class="explanation">${q.explain}</div>`;
+  }
+  document.getElementById('u1-score-display').textContent = `Score: ${u1Score}`;
+  document.getElementById('u1-next-btn').classList.add('visible');
+}
+
+function u1NextQuestion() {
+  u1Current++;
+  if (u1Current >= u1Questions.length) u1ShowResults();
+  else u1LoadQuestion();
+}
+
+function u1ShowResults() {
+  stopQuizTimer();
+  document.getElementById('unit1-quiz-screen').classList.add('hidden');
+  document.getElementById('unit1-results-screen').classList.remove('hidden');
+  const pct = Math.round((u1Score / u1Questions.length) * 100);
+  let icon, title, message;
+  if (pct >= 90) { icon='🏆'; title='Outstanding!'; message='Excellent work — you really know the California Insurance Code. You are exam-ready on this material!'; }
+  else if (pct >= 70) { icon='💪'; title='Great progress!'; message='Solid understanding of the Code. Review the questions you missed, then go again — you are close to exam-ready.'; }
+  else if (pct >= 50) { icon='📚'; title='Keep studying!'; message='Good foundation — focus on the penalty amounts and the specific day/number rules. Those are the most common exam questions.'; }
+  else { icon='🌱'; title='Keep going!'; message='The California Code has a lot of specific numbers to memorize. Read each explanation carefully and try again — you are building it.'; }
+  document.getElementById('u1-results-icon').textContent = icon;
+  document.getElementById('u1-results-title').textContent = title;
+  document.getElementById('u1-score-big').textContent = `${u1Score}/${u1Questions.length}`;
+  document.getElementById('u1-results-message').textContent = message;
+  document.getElementById('u1-final-time').textContent = formatQuizTime(quizElapsed);
+  const pace = getPaceInfo(quizElapsed, u1Questions.length);
+  document.getElementById('u1-time-sub').textContent = pace.sub;
+  const pb = document.getElementById('u1-pace-badge');
+  pb.textContent = pace.text; pb.className = 'pace-badge-pill ' + pace.cls;
+  const list = document.getElementById('u1-breakdown-list');
+  list.innerHTML = '';
+  u1Answered.forEach((a, i) => {
+    const item = document.createElement('div');
+    item.className = 'breakdown-item';
+    item.innerHTML = `<div class="breakdown-dot ${a.correct ? 'dot-correct' : 'dot-wrong'}"></div><span style="flex:1;font-size:0.85rem;color:var(--ink-soft)">Q${i+1}: ${a.q.substring(0,60)}${a.q.length > 60 ? '...' : ''}</span><span style="font-size:0.8rem;font-weight:600;color:${a.correct ? 'var(--teal-dark)' : 'var(--coral)'}">${a.correct ? '✓' : '✗'}</span>`;
+    list.appendChild(item);
+  });
+}
+
+function u1RestartQuiz() {
+  document.getElementById('unit1-results-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+  showHomeTab('unit1a');
 }
 </script>
 </body>
