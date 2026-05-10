@@ -380,6 +380,7 @@
       <button class="home-tab" id="tab-roleplay" onclick="showHomeTab('roleplay')">🎭 Role-Play</button>
       <button class="home-tab" id="tab-unit1a" onclick="showHomeTab('unit1a')">📜 CA Code #1</button>
       <button class="home-tab" id="tab-unit1b" onclick="showHomeTab('unit1b')">📜 CA Code #2</button>
+      <button class="home-tab" id="tab-unit1c" onclick="showHomeTab('unit1c')">📜 CA Code #3</button>
       <button class="home-tab" id="tab-tracker" onclick="showHomeTab('tracker')">📋 Tracker</button>
     </div>
 
@@ -512,6 +513,23 @@
       </div>
       <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">20 exam-style questions · Timed · California Insurance Code</p>
       <button class="start-btn" style="background:#0f1f3d;" onclick="startUnit1Quiz('b')">Start CA Code Quiz #2 →</button>
+    </div>
+
+    <!-- UNIT 1 QUIZ #3 PANEL -->
+    <div id="home-unit1c-panel" class="hidden">
+      <div class="card">
+        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">What's covered</p>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-dot" style="background:#0f1f3d"></div>CA Guaranty Association</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#c8963e"></div>Agent vs. Broker Distinction</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#2d6a4f"></div>Rebating &amp; Sliding</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#8b2020"></div>Policy Cancellation Rules</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Viatical &amp; STOLI</div>
+          <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>License Renewal &amp; CE</div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">20 exam-style questions · Timed · California Insurance Code</p>
+      <button class="start-btn" style="background:#0f1f3d;" onclick="startUnit1Quiz('c')">Start CA Code Quiz #3 →</button>
     </div>
   </div>
 
@@ -966,7 +984,7 @@ function restartQuiz() {
 }
 
 function showHomeTab(tab) {
-  ['quiz','roleplay','unit1a','unit1b','tracker'].forEach(t => {
+  ['quiz','roleplay','unit1a','unit1b','unit1c','tracker'].forEach(t => {
     document.getElementById('tab-' + t).classList.toggle('active', tab === t);
     const panel = document.getElementById('home-' + t + '-panel');
     if (panel) panel.classList.toggle('hidden', tab !== t);
@@ -1109,6 +1127,29 @@ const UNIT1B_QUESTIONS = [
   { topic:"Classes of Insurance", q:"Under California Insurance Code, which of the following is classified under the 'Disability' class of insurance?", options:["Workers' compensation and automobile insurance","Health, accidental death and dismemberment, Medicare supplement, long-term care, and disability income","Life insurance and fire insurance only","Surety bonds and credit insurance"], answer:1, explain:"The 'Disability' class in California covers: health, accidental death & dismemberment (AD&D), Medicare supplement, long-term care, and disability income. This grouping is tested — especially because Medicare supplement falls under Disability, not under Life." }
 ];
 
+const UNIT1C_QUESTIONS = [
+  { topic:"California Guaranty Association", q:"The California Insurance Guaranty Association (CIGA) protects policyholders when an admitted insurer becomes insolvent. What is the maximum CIGA will pay on a single covered claim?", options:["$150,000 per claim","$300,000 per claim, or the policy limits — whichever is less","$500,000 per claim regardless of policy limits","There is no maximum — CIGA pays the full policy amount"], answer:1, explain:"$300,000 per claim OR policy limits — whichever is LESS. CIGA covers most lines except title, surety, disability income, and mortgage guaranty. This exact cap is tested. Remember: nonadmitted insurers do NOT participate in CIGA — so there is zero protection if they fail." },
+  { topic:"License Types", q:"In California, a person who sells, solicits, or negotiates insurance for compensation on behalf of an insurer is called a(n):", options:["Solicitor","Broker","Agent","Managing general agent"], answer:2, explain:"An AGENT represents the INSURER. A BROKER represents the INSURED. A solicitor works under a licensed agent or broker. This three-way distinction is fundamental to the exam — especially the agent vs. broker difference." },
+  { topic:"License Types", q:"A California insurance BROKER differs from an insurance AGENT in that a broker:", options:["Can bind coverage without insurer approval","Represents the insured, not the insurer","Does not need to be licensed","May only sell life insurance products"], answer:1, explain:"BROKER = represents the INSURED (the buyer). AGENT = represents the INSURER (the company). Brokers typically cannot bind coverage — they must go to an insurer for that. This distinction affects legal liability, who owes a duty to whom, and how commissions work." },
+  { topic:"License Renewal", q:"How often must a California insurance producer renew their license?", options:["Every year","Every two years, on the licensee's birthday","Every four years","Every five years"], answer:1, explain:"California insurance licenses renew every TWO YEARS on the licensee's birthday. Continuing education requirements must also be met by renewal. Late renewal within 1 year of expiration = penalty fee. After 1 year lapsed = must re-apply as new." },
+  { topic:"Continuing Education", q:"How many hours of continuing education (CE) must a California life and health licensee complete each 2-year renewal period?", options:["12 hours, including 3 hours of ethics","20 hours, including 4 hours of ethics","24 hours, including 4 hours of ethics","30 hours, no ethics requirement"], answer:2, explain:"24 CE hours per 2-year period, including 4 hours of ethics. This applies to life and health licensees. Note: agents selling long-term care insurance have ADDITIONAL CE requirements on top of this." },
+  { topic:"Fiduciary Duty", q:"A California agent who receives premium funds from an insured must:", options:["Deposit them into the agent's personal account for safekeeping","Hold them in a fiduciary capacity and not commingle them with personal funds","Return them to the insured within 10 days if not forwarded to the insurer","Notify the Department of Insurance within 5 days of receipt"], answer:1, explain:"Agents hold premium funds in a FIDUCIARY capacity — meaning the money belongs to others and must NOT be commingled with personal funds. Commingling is a serious violation that can result in license revocation. The agent is a legal trustee of those funds." },
+  { topic:"Rebating", q:"An agent offers a client a portion of their commission as an incentive to purchase a policy. This is called:", options:["Twisting","Sliding","Rebating","Churning"], answer:2, explain:"REBATING = giving or offering anything of value not specified in the policy as an inducement to buy. This includes sharing commissions, gifts, or services. It is ILLEGAL for both the agent offering it AND the insured accepting it. Fine up to $500 per violation." },
+  { topic:"Rebating", q:"Under California law, who can be penalized for participating in rebating?", options:["Only the agent who offers the rebate","Only the insurer whose policy is being sold","Both the agent offering the rebate AND the insured who knowingly accepts it","No one — rebating is permitted in California for senior citizens"], answer:2, explain:"BOTH parties can be penalized — the agent for offering AND the insured for knowingly accepting. Penalty: up to $500 per violation for each. California has no exception for seniors. Rebating is never legal for insurance — this is a common wrong-answer trap." },
+  { topic:"Sliding", q:"An agent adds an accidental death benefit rider to a client's policy without clearly disclosing the additional cost or obtaining proper consent. This is called:", options:["Twisting","Sliding","Misrepresentation","Concealment"], answer:1, explain:"SLIDING = charging the insured for additional coverage or services they did not knowingly request or agree to. The agent 'slides' in coverage the insured didn't ask for. It is an unfair trade practice and a violation of the Insurance Code." },
+  { topic:"Administrative Actions", q:"If a California licensee is convicted of a felony, they must report it to the Department of Insurance within:", options:["10 days","30 days","60 days","90 days"], answer:1, explain:"Felony conviction (or any administrative action in another state) must be reported to the CDI within 30 DAYS. Failure to report is a separate violation on top of the underlying offense. This 30-day window is tested directly." },
+  { topic:"License Denial & Discipline", q:"Which of the following is NOT a ground for the Commissioner to suspend or revoke a California insurance license?", options:["Willful misrepresentation in obtaining the license","Failure to pay child support as ordered by a court","Selling only one insurance company's products","Having been convicted of a crime involving moral turpitude"], answer:2, explain:"Selling only one company's products (being a captive agent) is perfectly LEGAL — it is NOT a disciplinary ground. The other three are all legitimate grounds for suspension or revocation. Moral turpitude = crimes involving dishonesty or bad character." },
+  { topic:"Policy Cancellation", q:"For a personal automobile insurance policy in California that has been in force for more than 60 days, an insurer may only cancel for which of the following reasons?", options:["Any reason, provided 30 days written notice is given","Nonpayment of premium, fraud/material misrepresentation, or the insured's license has been suspended or revoked","Moving to a higher-risk zip code or age of the vehicle","Insurer's decision to stop writing auto policies in California"], answer:1, explain:"After 60 days in force, a personal auto policy can ONLY be cancelled for 3 reasons: nonpayment of premium, fraud or material misrepresentation, or suspension/revocation of the insured's driver's license. Insurers cannot cancel for other reasons mid-term." },
+  { topic:"Policy Cancellation — Notice", q:"How much advance written notice must an insurer give before cancelling a California personal lines policy for nonpayment of premium?", options:["10 days","20 days","30 days","60 days"], answer:0, explain:"10 days notice for NONPAYMENT. 20 days notice for ALL other allowable cancellation reasons (fraud, license suspension). At nonrenewal: 45 days for personal auto. Know all three numbers — the exam swaps them." },
+  { topic:"Policy Nonrenewal", q:"How much advance notice must a California personal automobile insurer give before deciding NOT to renew a policy?", options:["10 days","20 days","30 days","45 days"], answer:3, explain:"45 days advance written notice is required for nonrenewal of personal auto policies. Compare: 10 days for nonpayment cancellation, 20 days for other cancellations. The nonrenewal window is always LONGER than cancellation windows — a classic exam distinction." },
+  { topic:"Free Look Period", q:"Under California law, what is the minimum free look period for an individual life insurance policy?", options:["10 days","20 days","30 days","There is no mandated free look period for life insurance"], answer:0, explain:"10 days minimum free look for individual life insurance. During this window the policyowner may return the policy for a full premium refund. For Medicare supplement policies the free look is 30 days. For annuities sold to seniors (60+): 30 days. Know the different periods by product type." },
+  { topic:"Stranger-Originated Life Insurance", q:"California law prohibits 'stranger-originated life insurance' (STOLI) arrangements because:", options:["They involve too much paperwork for the Department of Insurance","They are entered into with the intent to sell the policy to a third party with no insurable interest","They are only available to individuals over age 80","They require reinsurance, which increases consumer premiums"], answer:1, explain:"STOLI = policies taken out on someone's life by strangers (investors) who have no insurable interest — purely as a financial investment. California law prohibits these because they undermine the insurable interest requirement and create a financial incentive for the insured's early death." },
+  { topic:"Viatical Settlements", q:"A viatical settlement allows a terminally ill policyholder to:", options:["Convert their term policy to whole life without proof of insurability","Sell their life insurance policy to a third party for a lump sum less than the death benefit","Name a charity as beneficiary in exchange for a tax deduction","Borrow against their policy's cash value at a guaranteed interest rate"], answer:1, explain:"A viatical settlement = selling a life insurance policy to a third-party investor for immediate cash — less than the death benefit but more than the cash value. The buyer pays future premiums and collects the death benefit when the insured dies. Viatical settlement providers must be licensed in California." },
+  { topic:"Insurance Department Examinations", q:"Under California Insurance Code, how often may the Commissioner examine the affairs of a domestic insurer?", options:["Once a year","Once every 2 years","Once every 3 years","No more frequently than once every 5 years, unless cause exists"], answer:3, explain:"The Commissioner may examine a domestic insurer no more than once every 5 YEARS — unless there is cause to examine more frequently (such as suspected insolvency or consumer complaints). Examinations are at the insurer's expense." },
+  { topic:"Surplus Lines — Broker Duty", q:"Before placing coverage with a nonadmitted (surplus lines) insurer, a California surplus lines broker must:", options:["Obtain Commissioner approval for each individual placement","Make a diligent search — attempting at least 3 admitted insurers — and disclose to the insured that the insurer is not protected by the guaranty fund","Post a $500,000 surety bond with the Department of Insurance","Only place coverage with nonadmitted insurers rated A or higher by AM Best"], answer:1, explain:"Before going to surplus lines, the broker must perform a DILIGENT SEARCH — attempting to place coverage with admitted insurers first. They must also give the insured a written disclosure that the nonadmitted insurer is NOT covered by California's guaranty funds. Both steps are legally required." },
+  { topic:"Unfair Trade Practices — Boycott", q:"Under the California Insurance Code, which of the following is classified as an unfair trade practice?", options:["Charging different premiums based on actuarially justified risk differences","Refusing to cover a risk that falls outside the insurer's underwriting guidelines","Participating in a boycott, coercion, or intimidation resulting in unreasonable restraint of the business of insurance","Selling both life and health insurance products under one license"], answer:2, explain:"Boycott, coercion, and intimidation are specifically listed unfair trade practices under California Insurance Code Section 790.03. This is different from normal competitive behavior or underwriting decisions — it means using market power to illegally restrain trade." }
+];
+
 // ── UNIT 1 QUIZ STATE ──────────────────────────────
 let u1Questions = [];
 let u1Current = 0;
@@ -1116,7 +1157,7 @@ let u1Score = 0;
 let u1Answered = [];
 
 function startUnit1Quiz(which) {
-  const pool = which === 'a' ? UNIT1A_QUESTIONS : UNIT1B_QUESTIONS;
+  const pool = which === 'a' ? UNIT1A_QUESTIONS : which === 'b' ? UNIT1B_QUESTIONS : UNIT1C_QUESTIONS;
   u1Questions = pool;
   u1Current = 0; u1Score = 0; u1Answered = [];
   document.getElementById('start-screen').classList.add('hidden');
@@ -1214,7 +1255,9 @@ function u1ShowResults() {
 function u1RestartQuiz() {
   document.getElementById('unit1-results-screen').classList.add('hidden');
   document.getElementById('start-screen').classList.remove('hidden');
-  showHomeTab('unit1a');
+  // Return to whichever CA Code tab was last used
+  const tab = u1Questions === UNIT1C_QUESTIONS ? 'unit1c' : u1Questions === UNIT1B_QUESTIONS ? 'unit1b' : 'unit1a';
+  showHomeTab(tab);
 }
 </script>
 </body>
