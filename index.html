@@ -378,9 +378,7 @@
     <div class="home-tabs">
       <button class="home-tab active" id="tab-quiz" onclick="showHomeTab('quiz')">📝 Exam Quiz</button>
       <button class="home-tab" id="tab-roleplay" onclick="showHomeTab('roleplay')">🎭 Role-Play</button>
-      <button class="home-tab" id="tab-unit1a" onclick="showHomeTab('unit1a')">📜 CA Code #1</button>
-      <button class="home-tab" id="tab-unit1b" onclick="showHomeTab('unit1b')">📜 CA Code #2</button>
-      <button class="home-tab" id="tab-unit1c" onclick="showHomeTab('unit1c')">📜 CA Code #3</button>
+      <button class="home-tab" id="tab-cacode" onclick="showHomeTab('cacode')">📜 CA Code</button>
       <button class="home-tab" id="tab-tracker" onclick="showHomeTab('tracker')">📋 Tracker</button>
     </div>
 
@@ -481,55 +479,41 @@
       </div>
     </div>
 
-    <!-- UNIT 1 QUIZ #1 PANEL -->
-    <div id="home-unit1a-panel" class="hidden">
-      <div class="card">
-        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">What's covered</p>
-        <div class="topics-grid">
-          <div class="topic-item"><div class="topic-dot" style="background:#0f1f3d"></div>The Insurance Commissioner</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#c8963e"></div>Types of Insurers</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#2d6a4f"></div>Unfair Trade Practices</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#8b2020"></div>Insurance Fraud</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Privacy Rules (GLB + CA)</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>Insurable Interest &amp; Contracts</div>
-        </div>
-      </div>
-      <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">20 exam-style questions · Timed · California Insurance Code</p>
-      <button class="start-btn" style="background:#0f1f3d;" onclick="startUnit1Quiz('a')">Start CA Code Quiz #1 →</button>
-    </div>
+    <!-- CA CODE GROUPED PANEL -->
+    <div id="home-cacode-panel" class="hidden">
+      <div class="card" style="padding:1.5rem;">
+        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:1rem;">Choose your quiz · 20 questions each · Timed</p>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
 
-    <!-- UNIT 1 QUIZ #2 PANEL -->
-    <div id="home-unit1b-panel" class="hidden">
-      <div class="card">
-        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">What's covered</p>
-        <div class="topics-grid">
-          <div class="topic-item"><div class="topic-dot" style="background:#0f1f3d"></div>Certificate of Authority</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#c8963e"></div>Licensing Requirements</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#2d6a4f"></div>Conservation &amp; Seizure</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#8b2020"></div>Discrimination Rules</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Warranties &amp; Rescission</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>Surplus Lines &amp; Recordkeeping</div>
-        </div>
-      </div>
-      <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">20 exam-style questions · Timed · California Insurance Code</p>
-      <button class="start-btn" style="background:#0f1f3d;" onclick="startUnit1Quiz('b')">Start CA Code Quiz #2 →</button>
-    </div>
+          <div onclick="startUnit1Quiz('a')" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.1rem;border:1.5px solid #d0dce8;border-radius:14px;background:#f4f6fb;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#0f1f3d';this.style.background='#e8ecf4'" onmouseout="this.style.borderColor='#d0dce8';this.style.background='#f4f6fb'" ontouchstart="this.style.borderColor='#0f1f3d';this.style.background='#e8ecf4'" ontouchend="this.style.borderColor='#d0dce8';this.style.background='#f4f6fb'">
+            <div style="width:38px;height:38px;border-radius:50%;background:#0f1f3d;color:white;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+            <div style="flex:1;">
+              <div style="font-size:0.95rem;font-weight:700;color:#0f1f3d;margin-bottom:2px;">CA Code Quiz #1</div>
+              <div style="font-size:0.78rem;color:var(--ink-soft);">Commissioner · Insurers · Fraud · Privacy · Contracts</div>
+            </div>
+            <div style="font-size:1rem;color:#0f1f3d;">→</div>
+          </div>
 
-    <!-- UNIT 1 QUIZ #3 PANEL -->
-    <div id="home-unit1c-panel" class="hidden">
-      <div class="card">
-        <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.85rem;">What's covered</p>
-        <div class="topics-grid">
-          <div class="topic-item"><div class="topic-dot" style="background:#0f1f3d"></div>CA Guaranty Association</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#c8963e"></div>Agent vs. Broker Distinction</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#2d6a4f"></div>Rebating &amp; Sliding</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#8b2020"></div>Policy Cancellation Rules</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#534AB7"></div>Viatical &amp; STOLI</div>
-          <div class="topic-item"><div class="topic-dot" style="background:#1D9E75"></div>License Renewal &amp; CE</div>
+          <div onclick="startUnit1Quiz('b')" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.1rem;border:1.5px solid #d0dce8;border-radius:14px;background:#f4f6fb;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#0f1f3d';this.style.background='#e8ecf4'" onmouseout="this.style.borderColor='#d0dce8';this.style.background='#f4f6fb'" ontouchstart="this.style.borderColor='#0f1f3d';this.style.background='#e8ecf4'" ontouchend="this.style.borderColor='#d0dce8';this.style.background='#f4f6fb'">
+            <div style="width:38px;height:38px;border-radius:50%;background:#0f1f3d;color:white;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+            <div style="flex:1;">
+              <div style="font-size:0.95rem;font-weight:700;color:#0f1f3d;margin-bottom:2px;">CA Code Quiz #2</div>
+              <div style="font-size:0.78rem;color:var(--ink-soft);">Certificate · Seizure · Discrimination · Surplus Lines</div>
+            </div>
+            <div style="font-size:1rem;color:#0f1f3d;">→</div>
+          </div>
+
+          <div onclick="startUnit1Quiz('c')" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.1rem;border:1.5px solid #d0dce8;border-radius:14px;background:#f4f6fb;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='#0f1f3d';this.style.background='#e8ecf4'" onmouseout="this.style.borderColor='#d0dce8';this.style.background='#f4f6fb'" ontouchstart="this.style.borderColor='#0f1f3d';this.style.background='#e8ecf4'" ontouchend="this.style.borderColor='#d0dce8';this.style.background='#f4f6fb'">
+            <div style="width:38px;height:38px;border-radius:50%;background:#0f1f3d;color:white;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+            <div style="flex:1;">
+              <div style="font-size:0.95rem;font-weight:700;color:#0f1f3d;margin-bottom:2px;">CA Code Quiz #3</div>
+              <div style="font-size:0.78rem;color:var(--ink-soft);">CIGA · Rebating · Cancellation · STOLI · Viatical</div>
+            </div>
+            <div style="font-size:1rem;color:#0f1f3d;">→</div>
+          </div>
+
         </div>
       </div>
-      <p style="text-align:center;font-size:0.88rem;color:var(--ink-soft);margin-bottom:1rem;">20 exam-style questions · Timed · California Insurance Code</p>
-      <button class="start-btn" style="background:#0f1f3d;" onclick="startUnit1Quiz('c')">Start CA Code Quiz #3 →</button>
     </div>
   </div>
 
@@ -984,7 +968,7 @@ function restartQuiz() {
 }
 
 function showHomeTab(tab) {
-  ['quiz','roleplay','unit1a','unit1b','unit1c','tracker'].forEach(t => {
+  ['quiz','roleplay','cacode','tracker'].forEach(t => {
     document.getElementById('tab-' + t).classList.toggle('active', tab === t);
     const panel = document.getElementById('home-' + t + '-panel');
     if (panel) panel.classList.toggle('hidden', tab !== t);
@@ -1255,9 +1239,7 @@ function u1ShowResults() {
 function u1RestartQuiz() {
   document.getElementById('unit1-results-screen').classList.add('hidden');
   document.getElementById('start-screen').classList.remove('hidden');
-  // Return to whichever CA Code tab was last used
-  const tab = u1Questions === UNIT1C_QUESTIONS ? 'unit1c' : u1Questions === UNIT1B_QUESTIONS ? 'unit1b' : 'unit1a';
-  showHomeTab(tab);
+  showHomeTab('cacode');
 }
 </script>
 </body>
