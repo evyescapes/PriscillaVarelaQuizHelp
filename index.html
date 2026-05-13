@@ -374,9 +374,54 @@ canvas#det-confetti { position: fixed; top: 0; left: 0; width: 100%; pointer-eve
 
   <!-- Unit selection cards -->
   <div id="license-home">
+    <!-- ── UNIT 1 ORIGINAL QUIZ ROWS ── -->
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1rem;">
+      <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:1rem;">Unit 1 — California Insurance Regulation · 20 questions each · Timed</p>
+      <div>
+        <div class="quiz-row" onclick="startUnit1Quiz('a')">
+          <div class="quiz-row-num">1</div>
+          <div style="flex:1;"><div class="quiz-row-title">CA Code Quiz #1</div><div class="quiz-row-sub">Commissioner · Insurers · Fraud · Privacy · Contracts</div></div>
+          <div style="font-size:1rem;color:#0f1f3d;">→</div>
+        </div>
+        <div class="quiz-row" onclick="startUnit1Quiz('b')">
+          <div class="quiz-row-num">2</div>
+          <div style="flex:1;"><div class="quiz-row-title">CA Code Quiz #2</div><div class="quiz-row-sub">Certificate · Seizure · Discrimination · Surplus Lines</div></div>
+          <div style="font-size:1rem;color:#0f1f3d;">→</div>
+        </div>
+        <div class="quiz-row" onclick="startUnit1Quiz('c')">
+          <div class="quiz-row-num">3</div>
+          <div style="flex:1;"><div class="quiz-row-title">CA Code Quiz #3</div><div class="quiz-row-sub">CIGA · Rebating · Cancellation · STOLI · Viatical</div></div>
+          <div style="font-size:1rem;color:#0f1f3d;">→</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── UNIT 2 ORIGINAL QUIZ ROWS ── -->
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1rem;">
+      <p style="font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:0.5rem;">Unit 2 — Ethical Behavior · 20 questions each · Timed</p>
+      <p style="font-size:0.82rem;color:var(--ink-soft);margin-bottom:1rem;">Every question includes a <strong style="color:#a06b10;">🎯 Tricky Wording Alert</strong> — exam traps to watch for.</p>
+      <div>
+        <div class="quiz-row" onclick="startUnit2Quiz('a')">
+          <div class="quiz-row-num quiz-row-u2">1</div>
+          <div style="flex:1;"><div class="quiz-row-title">Ethics Quiz #1</div><div class="quiz-row-sub">Codes of Ethics · Suitability · Pretext Interviews · Recordkeeping · E&amp;O</div></div>
+          <div style="font-size:1rem;color:#a06b10;">→</div>
+        </div>
+        <div class="quiz-row" onclick="startUnit2Quiz('b')">
+          <div class="quiz-row-num quiz-row-u2">2</div>
+          <div style="flex:1;"><div class="quiz-row-title">Ethics Quiz #2</div><div class="quiz-row-sub">Fiduciary · Churning · Twisting · Privacy · Seniors · Illustrations</div></div>
+          <div style="font-size:1rem;color:#a06b10;">→</div>
+        </div>
+        <div class="quiz-row" onclick="startUnit2Quiz('c')">
+          <div class="quiz-row-num quiz-row-u2">3</div>
+          <div style="flex:1;"><div class="quiz-row-title">Ethics Quiz #3</div><div class="quiz-row-sub">Medicare Cold-Call · SOA · Replacement · Referral Fees · AML · CDI</div></div>
+          <div style="font-size:1rem;color:#a06b10;">→</div>
+        </div>
+      </div>
+    </div>
+
     <div class="ca-license-intro">
-      <h3>🔍 CA License Exam Prep</h3>
-      <p>Three detective games — one for each unit of the 12-hour CA Ethics &amp; Code course.<br>Learning Mode builds understanding. Exam Mode tests under pressure.</p>
+      <h3>🔍 CA License Detective Games</h3>
+      <p>Three detective games — one per unit. Learning Mode builds understanding. Exam Mode simulates real test pressure.</p>
     </div>
     <div class="unit-cards">
       <div class="unit-card" onclick="openDetective('u1')">
@@ -489,6 +534,78 @@ canvas#det-confetti { position: fixed; top: 0; left: 0; width: 100%; pointer-eve
     </div>
 
   </div><!-- end detective-container -->
+
+  <!-- ── UNIT 1 QUIZ SCREEN ── -->
+  <div id="unit1-quiz-screen" class="hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+      <div class="progress-bar" style="flex:1;margin-bottom:0;margin-right:1rem;"><div class="progress-fill" id="u1-progress-fill"></div></div>
+      <div class="live-timer-pill" id="u1-timer-pill">⏱ 0:00</div>
+    </div>
+    <div class="progress-label"><span id="u1-progress-text">Question 1 of 20</span><span class="score-pill" id="u1-score-display">Score: 0</span></div>
+    <div class="card" id="u1-question-card">
+      <div id="u1-topic-tag" class="category-tag tag-basics"></div>
+      <div class="question-text" id="u1-question-text"></div>
+      <div class="options" id="u1-options-container"></div>
+      <div class="feedback" id="u1-feedback"></div>
+    </div>
+    <button class="next-btn" id="u1-next-btn" onclick="u1NextQuestion()">Next Question →</button>
+  </div>
+
+  <!-- ── UNIT 1 RESULTS SCREEN ── -->
+  <div id="unit1-results-screen" class="hidden results">
+    <div class="header">
+      <div id="u1-results-icon" class="results-icon"></div>
+      <h2 id="u1-results-title"></h2>
+      <div class="score-big" id="u1-score-big"></div>
+      <div style="display:inline-flex;flex-direction:column;align-items:center;background:var(--navy);color:white;border-radius:12px;padding:1rem 2rem;margin:1rem 0;gap:0.2rem;">
+        <span style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold-light);font-weight:300;">⏱ Your Time</span>
+        <span style="font-family:'Fraunces',serif;font-size:2.6rem;font-weight:700;color:white;line-height:1;" id="u1-final-time">—</span>
+        <span style="font-size:0.78rem;color:#8898bb;font-style:italic;" id="u1-time-sub"></span>
+      </div>
+      <span class="pace-badge-pill" id="u1-pace-badge"></span>
+      <p id="u1-results-message"></p>
+    </div>
+    <div class="results-breakdown card"><h3>Question by question</h3><div id="u1-breakdown-list"></div></div>
+    <button class="restart-btn" onclick="u1RestartQuiz()">Try Again — Beat Your Time →</button><br><br>
+    <button class="restart-btn" style="background:var(--paper);color:var(--navy);border:1.5px solid var(--navy);margin-top:0.5rem;" onclick="goToLicenseHome()">← Back to CA License</button>
+  </div>
+
+  <!-- ── UNIT 2 QUIZ SCREEN ── -->
+  <div id="unit2-quiz-screen" class="hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+      <div class="progress-bar" style="flex:1;margin-bottom:0;margin-right:1rem;"><div class="progress-fill" id="u2-progress-fill"></div></div>
+      <div class="live-timer-pill" id="u2-timer-pill">⏱ 0:00</div>
+    </div>
+    <div class="progress-label"><span id="u2-progress-text">Question 1 of 20</span><span class="score-pill" id="u2-score-display">Score: 0</span></div>
+    <div class="card" id="u2-question-card">
+      <div id="u2-topic-tag" class="category-tag tag-u2"></div>
+      <div class="question-text" id="u2-question-text"></div>
+      <div class="options" id="u2-options-container"></div>
+      <div class="feedback" id="u2-feedback"></div>
+      <div class="tricky-box" id="u2-tricky"></div>
+    </div>
+    <button class="next-btn" id="u2-next-btn" onclick="u2NextQuestion()">Next Question →</button>
+  </div>
+
+  <!-- ── UNIT 2 RESULTS SCREEN ── -->
+  <div id="unit2-results-screen" class="hidden results">
+    <div class="header">
+      <div id="u2-results-icon" class="results-icon"></div>
+      <h2 id="u2-results-title"></h2>
+      <div class="score-big" id="u2-score-big"></div>
+      <div style="display:inline-flex;flex-direction:column;align-items:center;background:var(--navy);color:white;border-radius:12px;padding:1rem 2rem;margin:1rem 0;gap:0.2rem;">
+        <span style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold-light);font-weight:300;">⏱ Your Time</span>
+        <span style="font-family:'Fraunces',serif;font-size:2.6rem;font-weight:700;color:white;line-height:1;" id="u2-final-time">—</span>
+        <span style="font-size:0.78rem;color:#8898bb;font-style:italic;" id="u2-time-sub"></span>
+      </div>
+      <span class="pace-badge-pill" id="u2-pace-badge"></span>
+      <p id="u2-results-message"></p>
+    </div>
+    <div class="results-breakdown card"><h3>Question by question</h3><div id="u2-breakdown-list"></div></div>
+    <button class="restart-btn" onclick="u2RestartQuiz()">Try Again — Beat Your Time →</button><br><br>
+    <button class="restart-btn" style="background:var(--paper);color:var(--navy);border:1.5px solid var(--navy);margin-top:0.5rem;" onclick="goToLicenseHome()">← Back to CA License</button>
+  </div>
+
 </div><!-- end panel-license -->
 
 <!-- ════════════════════════════════════════════════════
